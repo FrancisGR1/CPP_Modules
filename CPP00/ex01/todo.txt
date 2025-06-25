@@ -1,4 +1,0 @@
-TODO
-forma canónica?
-cpp core guidelines - estilo?
-pragma, ifndef, etc nos hpp?
