@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:39:49 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/25 16:39:49 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:49:52 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ Account::Account(int initial_deposit)
 	_nbAccounts++;
 	_totalAmount += initial_deposit;
 	_nbDeposits = 0;
+	_nbWithdrawals = 0;
 	_amount = initial_deposit;
 
 	Account::_displayTimestamp();
