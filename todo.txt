@@ -1,0 +1,6 @@
+Organizar ficheiros em pastas src, include, obj?
+colocar classes em forma canónica
+rever normas de estilo
+compilar com clang++
+avaliar cada exercício com os sheets
+preciso de meter headers para a norminette?

@@ -1,0 +1,1 @@
+verificar se a implementação de = funciona bem

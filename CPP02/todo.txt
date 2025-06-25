@@ -1,0 +1,2 @@
+verificar se a implementação de = funciona bem
+aumentar nº de testes em cada ex.

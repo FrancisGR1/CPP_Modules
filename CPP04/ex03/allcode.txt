@@ -1,0 +1,346 @@
+#include "AMateria.hpp"
+
+AMateria::AMateria() {}
+AMateria::~AMateria() {}
+
+AMateria::AMateria(const std::string& type)
+	: m_type(type)
+{};
+
+const std::string& AMateria::getType() const { return m_type; }
+
+void AMateria::use(ICharacter& target) { (void) target; }
+#ifndef AMATERIA_HPP
+#define AMATERIA_HPP
+
+#include <iostream>
+
+class ICharacter;
+
+class AMateria
+{
+	protected:
+		std::string m_type;
+	public:
+		AMateria();
+		AMateria(std::string const & type);
+		virtual ~AMateria();
+		std::string const & getType() const;
+		virtual AMateria* clone() const = 0;
+		virtual void use(ICharacter& target);
+};
+
+#endif /*AMATERIA_HPP*/
+#include "Character.hpp"
+
+Character::Character() 
+	: m_name("")
+	, m_idx(0) 
+{
+	for (size_t i = 0; i < MAX_MATERIAS; i++)
+	{
+		m_materias[i] = NULL;
+	}
+};
+
+Character::Character(std::string name) 
+	: m_name(name)
+	, m_idx(0)
+{
+	for (size_t i = 0; i < MAX_MATERIAS; i++)
+	{
+		m_materias[i] = NULL;
+	}
+};
+
+Character::~Character() 
+{
+	for (size_t i = 0; i < MAX_MATERIAS; i++)
+	{
+		if (m_materias[i])
+		{
+			delete m_materias[i];
+			m_materias[i] = NULL;
+		}
+	}
+};
+
+const std::string& Character::getName() const
+{
+	return (m_name);
+};
+
+void Character::equip(AMateria* m)
+{
+	if (m_idx == MAX_MATERIAS)
+	{
+		std::cerr << "Inventory is full!" << std::endl;
+		return ;
+	}
+	m_materias[m_idx] = m;
+	m_idx++;
+};
+
+void Character::unequip(int idx)
+{
+	if (idx >= 0 && idx < static_cast<int>(MAX_MATERIAS) && m_materias[idx])
+		m_materias[idx] = NULL;
+};
+
+void Character::use(int idx, ICharacter& target)
+{
+	if (idx >= static_cast<int>(MAX_MATERIAS) || idx < 0)
+	{
+		std::cerr << "Wrong index: " << idx << std::endl;
+	}
+	else if (!m_materias[idx])
+	{
+		std::cerr << "Nothing equiped at: " << idx << std::endl;
+	}
+	else
+	{
+		m_materias[idx]->use(target);
+	};
+
+};
+#ifndef CHARACTER_HPP
+#define CHARACTER_HPP
+
+#include "ICharacter.hpp"
+#include "MateriaSource.hpp"
+
+class Character : public ICharacter
+{
+	public:
+		Character();
+		Character(std::string name);
+		~Character();
+		const std::string& getName() const;
+		void equip(AMateria* m);
+		void unequip(int idx);
+		void use(int idx, ICharacter& target);
+
+	private:
+		const std::string m_name;
+		size_t m_idx;
+		AMateria* m_materias[MAX_MATERIAS];
+};
+
+#endif /*CHARACTER_HPP*/
+#include "Cure.hpp"
+
+Cure::Cure() : AMateria("ice") {}
+Cure::~Cure(){}
+
+Cure* Cure::clone() const
+{
+	return (new Cure());
+};
+
+void Cure::use(ICharacter& target)
+{
+	std::cout << "* heals " << target.getName() << "'s wounds" << std::endl; 
+}
+#ifndef CURE_HPP
+#define CURE_HPP
+
+#include <iostream>
+#include "AMateria.hpp"
+#include "ICharacter.hpp"
+
+class Cure : public AMateria
+{
+
+	public: 
+		Cure();
+		virtual ~Cure();
+		Cure* clone() const;
+		void use (ICharacter& target);
+};
+
+#endif /*CURE_HPP*/
+#include "Ice.hpp"
+
+Ice::Ice() : AMateria("ice") {}
+Ice::~Ice(){}
+
+Ice* Ice::clone() const
+{
+	return (new Ice());
+};
+
+void Ice::use(ICharacter& target)
+{
+	std::cout << "* shoots an ice bolt at " << target.getName() << std::endl; 
+}
+#ifndef ICE_HPP
+#define ICE_HPP
+
+#include <iostream>
+#include "AMateria.hpp"
+#include "ICharacter.hpp"
+
+class Ice : public AMateria
+{
+
+	public: 
+		Ice();
+		virtual ~Ice();
+		Ice* clone() const;
+		void use (ICharacter& target);
+};
+
+#endif /*ICE_HPP*/
+#ifndef ICHARACTER_HPP
+#define ICHARACTER_HPP
+
+#include <iostream>
+
+class AMateria;
+
+class ICharacter
+{
+	public:
+		virtual ~ICharacter() {}
+		virtual std::string const & getName() const = 0;
+		virtual void equip(AMateria* m) = 0;
+		virtual void unequip(int idx) = 0;
+		virtual void use(int idx, ICharacter& target) = 0;
+};
+
+#endif /*ICHARACTER_HPP*/
+
+#ifndef IMATERIASOURCE_HPP
+#define IMATERIASOURCE_HPP
+
+#include "AMateria.hpp"
+#include <iostream>
+
+class IMateriaSource
+{
+	public:
+		virtual ~IMateriaSource() {}
+		virtual void learnMateria(AMateria*) = 0;
+		virtual AMateria* createMateria(std::string const & type) = 0;
+};
+
+#endif /*IMATERIASOURCE_HPP*/
+#include "IMateriaSource.hpp"
+#include "MateriaSource.hpp"
+#include "AMateria.hpp"
+#include "ICharacter.hpp"
+#include "Ice.hpp"
+#include "Cure.hpp"
+#include "Character.hpp"
+
+int main()
+{
+	IMateriaSource* src = new MateriaSource();
+	src->learnMateria(new Ice());
+	src->learnMateria(new Cure());
+	ICharacter* me = new Character("me");
+	AMateria* tmp;
+	tmp = src->createMateria("ice");
+	me->equip(tmp);
+	tmp = src->createMateria("cure");
+	me->equip(tmp);
+	ICharacter* bob = new Character("bob");
+	me->use(0, *bob);
+	me->use(1, *bob);
+	delete bob;
+	delete me;
+	delete src;
+}
+NAME = a.out
+
+VERSION = -std=c++98 -g
+FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
+SRC     = main.cpp MateriaSource.cpp Character.cpp Ice.cpp Cure.cpp AMateria.cpp
+OBJ     = $(SRC:.cpp=.o) 
+INC     = AMateria.hpp IMateriaSource.hpp MateriaSource.hpp ICharacter.hpp \
+	  Character.hpp Ice.hpp Cure.hpp
+
+all: $(NAME)
+
+$(NAME): $(OBJ) $(INC)
+	$(CXX) $(FLAGS) $(SRC) -o $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(FLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+#include "AMateria.hpp"
+#include "MateriaSource.hpp"
+#include "Ice.hpp"
+
+MateriaSource::MateriaSource() 
+	: m_idx(0) 
+{
+    for (size_t i = 0; i < MAX_MATERIAS; i++) 
+    {
+        m_materias[i] = NULL;
+    }
+}
+
+MateriaSource::~MateriaSource() 
+{
+    for (size_t i = 0; i < MAX_MATERIAS; i++) 
+    {
+        if (m_materias[i]) 
+	{
+            delete m_materias[i];
+        }
+    }
+}
+
+void MateriaSource::learnMateria(AMateria* creation)
+{
+	if (m_idx == MAX_MATERIAS)
+		m_idx = 0;
+
+	if (m_materias[m_idx])
+		delete m_materias[m_idx];
+
+	m_materias[m_idx] = creation;
+	m_idx++;
+};
+
+AMateria* MateriaSource::createMateria(const std::string& type)
+{
+	for (size_t i = 0; i < MAX_MATERIAS; i++) 
+	{
+		if (m_materias[i] && m_materias[i]->getType() == type) 
+		{
+			return m_materias[i]->clone();
+		}
+	}
+	return NULL;
+};
+#ifndef MATERIASOURCE_HPP
+#define MATERIASOURCE_HPP
+
+#include "AMateria.hpp"
+#include "IMateriaSource.hpp"
+#include <iostream>
+
+const size_t MAX_MATERIAS = 4;
+
+class MateriaSource : public IMateriaSource
+{
+	public:
+		MateriaSource();
+		virtual ~MateriaSource();
+		void learnMateria(AMateria*);
+		AMateria* createMateria(const std::string& type);
+	private:
+		AMateria* m_materias[MAX_MATERIAS];
+		size_t m_idx;
+};
+
+#endif /*MATERIASOURCE_HPP*/

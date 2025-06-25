@@ -1,0 +1,3 @@
+compreender melhor fractional bits
+
+compreender melhor a função que encontra um ponto no triângulo

@@ -1,0 +1,234 @@
+#include "Animal.hpp"
+
+Animal::Animal()
+	: type("Animal") { std::cout << "<Animal> constructed" << std::endl; }
+
+Animal::~Animal() { std::cout << "<Animal> destructed" << std::endl; }
+
+std::string Animal::getType() const { return type; }
+void Animal::makeSound() const { std::cout << "(What is the sound of an abstract category?)" << std::endl; }
+
+#ifndef ANIMAL_HPP
+#define ANIMAL_HPP
+
+#include <iostream>
+
+class Animal
+{
+	public:
+		Animal();
+		virtual ~Animal();
+
+		virtual std::string getType() const;
+		virtual void makeSound() const;
+
+	protected:
+		std::string type;
+
+};
+#endif /*ANIMAL_HPP*/
+#ifndef BRAIN_HPP
+#define BRAIN_HPP
+
+#include <iostream>
+
+const size_t IDEAS = 100;
+
+class Brain
+{
+	public:
+		//TODO: constructor; TODO: Destructor
+		std::string ideas[IDEAS];
+};
+#endif /*BRAIN_HPP*/
+#include "Cat.hpp"
+
+Cat::Cat()
+	: type("Cat") 
+	, b(new Brain())
+{ 
+	std::cout << "<Cat> constructed" << std::endl; 
+}
+
+Cat::~Cat() 
+{ 
+	delete b;
+	std::cout << "<Cat> destructed" << std::endl; 
+}
+
+std::string Cat::getType() const { return type; }
+void Cat::makeSound() const { std::cout << "Meow!" << std::endl; }
+#ifndef CAT_HPP
+#define CAT_HPP
+
+#include "Animal.hpp"
+#include "Brain.hpp"
+
+class Cat : public Animal
+{
+	public:
+		Cat();
+		virtual ~Cat();
+
+		virtual std::string getType() const;
+		virtual void makeSound() const;
+
+	protected:
+		std::string type;
+
+	private:
+		Brain* b;
+
+
+};
+#endif /*CAT_HPP*/
+#include "Dog.hpp"
+
+Dog::Dog()
+	: type("Dog") 
+	, b(new Brain())
+{ 
+	std::cout << "<Dog> constructed" << std::endl; 
+};
+
+Dog::~Dog()
+{ 
+	delete b;
+	std::cout << "<Dog> destructed" << std::endl; 
+}
+
+std::string Dog::getType() const { return type; }
+void Dog::makeSound() const { std::cout << "Woof!" << std::endl; }
+#ifndef DOG_HPP
+#define DOG_HPP
+
+#include "Animal.hpp"
+#include "Brain.hpp"
+
+class Dog : public Animal
+{
+	public:
+		Dog();
+		virtual ~Dog();
+
+		virtual std::string getType() const;
+		virtual void makeSound() const;
+
+	protected:
+		std::string type;
+
+	private:
+		Brain* b;
+
+};
+#endif /*DOG_HPP*/
+#include "Animal.hpp"
+#include "Dog.hpp"
+#include "Cat.hpp"
+#include "WrongAnimal.hpp"
+#include "WrongCat.hpp"
+#include "Brain.hpp"
+
+int main()
+{
+	const Animal* j = new Dog();
+	const Animal* i = new Cat();
+
+	size_t size = 10;
+	Animal* animals[size];
+	for (size_t i = 0; i < size; i++)
+	{
+		if (i < size)
+			animals[i] = new Dog();
+		else
+			animals[i] = new Cat();
+	}
+
+	delete j;//should not create a leak
+	delete i;
+
+	for (size_t i = 0; i < size; i++)
+	{
+		delete animals[i];
+	}
+}
+NAME = a.out
+
+VERSION = -std=c++98
+FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
+SRC     = main.cpp Animal.cpp Dog.cpp Cat.cpp WrongAnimal.cpp WrongCat.cpp Brain.cpp
+OBJ     = $(SRC:.cpp=.o) 
+INC     = Animal.hpp Dog.hpp Cat.hpp WrongAnimal.hpp WrongCat.hpp Brain.hpp
+
+all: $(NAME)
+
+$(NAME): $(OBJ) $(INC)
+	$(CXX) $(FLAGS) $(SRC) -o $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(FLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+#include "WrongAnimal.hpp"
+
+WrongAnimal::WrongAnimal()
+	: type("WrongAnimal") { std::cout << "<WrongAnimal> constructed" << std::endl; }
+
+WrongAnimal::~WrongAnimal() { std::cout << "<WrongAnimal> destructed" << std::endl; }
+
+std::string WrongAnimal::getType() const { return type; }
+void WrongAnimal::makeSound() const { std::cout << "(What is the sound of an abstract category?)" << std::endl; }
+
+#ifndef WRONGANIMAL_HPP
+#define WRONGANIMAL_HPP
+
+#include <iostream>
+
+class WrongAnimal
+{
+	public:
+		WrongAnimal();
+		~WrongAnimal();
+
+		std::string getType() const;
+		void makeSound() const;
+
+	protected:
+		std::string type;
+
+};
+#endif /*WRONGANIMAL_HPP*/
+#include "WrongCat.hpp"
+
+WrongCat::WrongCat()
+	: type("WrongCat") { std::cout << "<WrongCat> constructed" << std::endl; }
+
+WrongCat::~WrongCat() { std::cout << "<WrongCat> destructed" << std::endl; }
+
+std::string WrongCat::getType() const { return type; }
+void WrongCat::makeSound() const { std::cout << "Meow!" << std::endl; }
+#ifndef WRONGCAT_HPP
+#define WRONGCAT_HPP
+
+#include "WrongAnimal.hpp"
+
+class WrongCat : public WrongAnimal
+{
+	public:
+		WrongCat();
+		~WrongCat();
+
+		std::string getType() const;
+		void makeSound() const;
+
+	protected:
+		std::string type;
+
+};
+#endif /*WRONGCAT_HPP*/
