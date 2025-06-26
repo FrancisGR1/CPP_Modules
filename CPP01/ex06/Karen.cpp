@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Karen.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/26 10:30:03 by frmiguel          #+#    #+#             */
+/*   Updated: 2025/06/26 11:20:04 by frmiguel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Karen.hpp"
 
 void Karen::complain(std::string s)
@@ -9,7 +21,8 @@ void Karen::complain(std::string s)
 		if (s == lvls[i])
 			break ;
 	}
-	switch (i) {
+	switch (i) 
+	{
 		case DEBUG:
 			debug();
 			info();

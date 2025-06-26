@@ -1,3 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Zombie.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/25 17:01:43 by frmiguel          #+#    #+#             */
+/*   Updated: 2025/06/25 17:01:44 by frmiguel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+#define ZOMBIE_HPP
+
 #include <iostream>
 
 class Zombie {
@@ -9,6 +24,7 @@ class Zombie {
 		std::string m_name;
 };
 
-
 Zombie*	newZombie( std::string name);
 void	randomChump( std::string name);
+
+#endif /*ZOMBIE_HPP*/

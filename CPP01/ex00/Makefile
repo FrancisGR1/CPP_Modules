@@ -1,7 +1,20 @@
+## ########################################################################## ##
+##                                                                            ##
+##                                                        :::      ::::::::   ##
+##   Makefile                                           :+:      :+:    :+:   ##
+##                                                    +:+ +:+         +:+     ##
+##   By: frmiguel <frmiguel>                        +#+  +:+       +#+        ##
+##                                                +#+#+#+#+#+   +#+           ##
+##   Created: 2025/06/25 17:01:40 by frmiguel          #+#    #+#             ##
+##   Updated: 2025/06/25 17:02:54 by frmiguel         ###   ########.fr       ##
+##                                                                            ##
+## ########################################################################## ##
+
+CXX         = c++
 VERSION     = -std=c++98
 FLAGS       = -Wall -Wextra -Werror $(VERSION)
 FILES       = randomChump.cpp newZombie.cpp Zombie.cpp main.cpp
-INCLUDES    = Zombie.hpp Utils.hpp 
+INCLUDES    = Zombie.hpp
 OBJ        = $(FILES:.cpp=.o)
 
 NAME      = brainz
