@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/26 12:29:05 by frmiguel          #+#    #+#             */
+/*   Updated: 2025/06/26 15:28:51 by frmiguel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Fixed.hpp"
 
 Fixed::Fixed()
@@ -29,10 +41,6 @@ Fixed::Fixed(const Fixed& point)
 	m_value = point.m_value;
 };
 
-//TODO:
-//porque é que isto funciona mas não:
-//return (Fixed(point))
-//???
 Fixed Fixed::operator=(const Fixed& point)
 {
 	std::cout << "Assignment operator called" << std::endl;
@@ -59,7 +67,7 @@ void Fixed::setRawBits(int const raw)
 
 float Fixed::toFloat(void) const
 {
-	return (static_cast<float>(m_value) / (1 << m_fractional_bits));
+	return (static_cast<float>(m_value / (1 << m_fractional_bits)));
 };
 
 int Fixed::toInt(void) const

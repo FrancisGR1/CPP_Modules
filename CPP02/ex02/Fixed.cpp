@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Fixed.cpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/26 12:30:25 by frmiguel          #+#    #+#             */
+/*   Updated: 2025/06/26 15:37:54 by frmiguel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Fixed.hpp"
 
 Fixed const& Fixed::max(Fixed const& p1, Fixed const& p2)
@@ -49,10 +61,6 @@ Fixed::Fixed(const Fixed& point)
 	m_value = point.m_value;
 };
 
-//TODO:
-//porque é que isto funciona mas não:
-//return (Fixed(point))
-//???
 Fixed Fixed::operator=(const Fixed& point)
 {
 	std::cout << "Assignment operator called" << std::endl;

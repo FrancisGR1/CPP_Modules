@@ -1,5 +1,0 @@
-08 04 Area Interpretation of Barycentric Coordinates:
-https://www.youtube.com/watch?v=k-OIXaWg9jI
-
-08 05 Calculating Barycentric Coordinates 
-https://www.youtube.com/watch?v=J5QaT2nla5M
