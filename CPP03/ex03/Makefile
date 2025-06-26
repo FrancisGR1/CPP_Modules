@@ -1,5 +1,6 @@
 NAME = a.out
 
+CXX     = c++
 VERSION = -std=c++98
 FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
 SRC     = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp DiamondTrap.cpp
