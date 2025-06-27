@@ -1,5 +1,6 @@
 NAME = a.out
 
+CXX     =  c++
 VERSION = -std=c++98 -g
 FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
 SRC     = main.cpp MateriaSource.cpp Character.cpp Ice.cpp Cure.cpp AMateria.cpp

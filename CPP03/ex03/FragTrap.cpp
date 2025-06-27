@@ -1,4 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   FragTrap.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/26 16:33:41 by frmiguel          #+#    #+#             */
+/*   Updated: 2025/06/27 14:09:00 by frmiguel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "FragTrap.hpp"
+
+FragTrap::FragTrap()
+	: ClapTrap()
+{
+	setHp(100);
+	setEnergy(100);
+	setAtkDamage(30);
+	std::cout << "<FragTrap> Default Constructed: " << getName() << std::endl;
+};
 
 FragTrap::FragTrap(std::string name)
 	: ClapTrap(name)
@@ -9,12 +30,28 @@ FragTrap::FragTrap(std::string name)
 	std::cout << "<FragTrap> Constructed: " << getName() << std::endl;
 };
 
+FragTrap::FragTrap(const FragTrap& other)
+	: ClapTrap(other)
+{
+
+	std::cout << "<FragTrap> Copy Constructed: " << getName() << std::endl;
+};
+
+FragTrap& FragTrap::operator=(const FragTrap& other)
+{
+	std::cout << "<FragTrap> Assignment operator called" << std::endl;
+
+	ClapTrap::operator=(other);
+
+	return (*this);
+};
+
 FragTrap::~FragTrap()
 {
-	std::cout << "<FragTrap> Destructed: " << getName() << std::endl;
+	std::cout << "<FragTrap> Destroyed: " << getName() << std::endl;
 };
 
 void FragTrap::highFiveGuys()
 {
-	std::cout << "FragTrap wants a high five!" << std::endl;
+	std::cout << "FragTrap (" << getName() << ") wants a high five!" << std::endl;
 };
