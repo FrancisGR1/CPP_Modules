@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:32:49 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 12:55:52 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 09:44:54 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 ScavTrap::ScavTrap()
 	: ClapTrap("Default")
 {
-	setHp(100);
-	setEnergy(50);
-	setAtkDamage(20);
+	setHp(SCAV_HP);
+	setEnergy(SCAV_ENERGY);
+	setAtkDamage(SCAV_ATK);
 	std::cout << "<ScavTrap> Default Constructed: " << getName() << std::endl;
 };
 
 ScavTrap::ScavTrap(const ScavTrap& st)
 	: ClapTrap(st)
 {
-	setHp(100);
-	setEnergy(50);
-	setAtkDamage(20);
+	setHp(SCAV_HP);
+	setEnergy(SCAV_ENERGY);
+	setAtkDamage(SCAV_ATK);
 	std::cout << "<ScavTrap> Copy Constructed: " << getName() << std::endl;
 };
 
 ScavTrap::ScavTrap(std::string name)
 	: ClapTrap(name)
 {
-	setHp(100);
-	setEnergy(50);
-	setAtkDamage(20);
+	setHp(SCAV_HP);
+	setEnergy(SCAV_ENERGY);
+	setAtkDamage(SCAV_ATK);
 	std::cout << "<ScavTrap> Constructed: " << getName() << std::endl;
 };
 

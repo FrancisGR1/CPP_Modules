@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:33:03 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 12:59:06 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:48:37 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #define SCAVTRAP_HPP
 
 #include "ClapTrap.hpp"
+
+const unsigned int SCAV_HP = 100;
+const unsigned int SCAV_ENERGY = 50;
+const unsigned int SCAV_ATK = 20;
 
 class ScavTrap : public ClapTrap
 {

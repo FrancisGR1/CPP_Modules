@@ -6,29 +6,32 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:33:10 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 14:24:01 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:43:57 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FragTrap.hpp"
 
 FragTrap::FragTrap()
+	: ClapTrap()
 {
-	setHp(100);
-	setEnergy(100);
-	setAtkDamage(30);
+	setHp(FRAG_HP);
+	setEnergy(FRAG_ENERGY);
+	setAtkDamage(FRAG_ATK);
 	std::cout << "<FragTrap> Default Constructed: " << getName() << std::endl;
 };
 
 FragTrap::FragTrap(std::string name)
+	: ClapTrap(name)
 {
-	setHp(100);
-	setEnergy(100);
-	setAtkDamage(30);
+	setHp(FRAG_HP);
+	setEnergy(FRAG_ENERGY);
+	setAtkDamage(FRAG_ATK);
 	std::cout << "<FragTrap> Constructed: " << getName() << std::endl;
 };
 
 FragTrap::FragTrap(const FragTrap& other)
+	: ClapTrap(other)
 {
 
 	std::cout << "<FragTrap> Copy Constructed: " << getName() << std::endl;

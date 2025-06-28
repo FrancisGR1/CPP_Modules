@@ -8,7 +8,8 @@ class Cat : public Animal
 {
 	public:
 		Cat();
-		Cat(const Cat& other);
+		Cat(const Cat&);
+		Cat& operator=(const Cat&);
 		virtual ~Cat();
 
 		virtual std::string getType() const;

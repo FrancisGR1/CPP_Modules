@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:33:34 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 14:02:43 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:53:28 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 ClapTrap::ClapTrap(void)
 	: m_name("Default")
-	, m_hitpoint(10)
-	, m_energy(10)
-	, m_attack_damage(9)
+	, m_hitpoint(DEFAULT_HP)
+	, m_energy(DEFAULT_ENERGY)
+	, m_attack_damage(DEFAULT_ATK)
 {
-	std::cout << "<ClapTrap> Default Constructed" << std::endl;
+	std::cout << "<ClapTrap> Default Constructed: " << m_name << std::endl;
 };
 
 ClapTrap::ClapTrap(std::string name)
 	: m_name(name)
-	, m_hitpoint(10)
-	, m_energy(10)
-	, m_attack_damage(9)
+	, m_hitpoint(DEFAULT_HP)
+	, m_energy(DEFAULT_ENERGY)
+	, m_attack_damage(DEFAULT_ATK)
 {
-	std::cout << "<ClapTrap> Constructed: " << name << std::endl;
+	std::cout << "<ClapTrap> Constructed: " << m_name << std::endl;
 };
+
 
 ClapTrap::ClapTrap(const ClapTrap& other)
 	: m_name(other.m_name)

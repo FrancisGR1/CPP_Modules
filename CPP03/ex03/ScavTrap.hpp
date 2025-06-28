@@ -6,12 +6,16 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:34:05 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 14:20:25 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:18:33 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCAVTRAP_HPP
 #define SCAVTRAP_HPP
+
+const unsigned int SCAV_HP = 100;
+const unsigned int SCAV_ENERGY = 50;
+const unsigned int SCAV_ATK = 20;
 
 #include "ClapTrap.hpp"
 

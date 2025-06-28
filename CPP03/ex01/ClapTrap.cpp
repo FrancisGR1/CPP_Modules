@@ -6,29 +6,31 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:32:45 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 12:48:52 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:51:09 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
+
 ClapTrap::ClapTrap(void)
 	: m_name("Default")
-	, m_hitpoint(10)
-	, m_energy(10)
-	, m_attack_damage(9)
+	, m_hitpoint(DEFAULT_HP)
+	, m_energy(DEFAULT_ENERGY)
+	, m_attack_damage(DEFAULT_ATK)
 {
 	std::cout << "<ClapTrap> Default Constructed" << std::endl;
 };
 
 ClapTrap::ClapTrap(std::string name)
 	: m_name(name)
-	, m_hitpoint(10)
-	, m_energy(10)
-	, m_attack_damage(9)
+	, m_hitpoint(DEFAULT_HP)
+	, m_energy(DEFAULT_ENERGY)
+	, m_attack_damage(DEFAULT_ATK)
 {
-	std::cout << "<ClapTrap> Constructed: " << name << std::endl;
+	std::cout << "<ClapTrap> Constructed" << std::endl;
 };
+
 
 ClapTrap::ClapTrap(const ClapTrap& other)
 	: m_name(other.m_name)

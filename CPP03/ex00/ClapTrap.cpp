@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:28:17 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 11:46:36 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:45:13 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 ClapTrap::ClapTrap(void)
 	: m_name("Default")
-	, m_hitpoint(10)
-	, m_energy(10)
-	, m_attack_damage(9)
+	, m_hitpoint(DEFAULT_HP)
+	, m_energy(DEFAULT_ENERGY)
+	, m_attack_damage(DEFAULT_ATK)
 {
 	std::cout << "<ClapTrap> Default Constructed" << std::endl;
 };
 
 ClapTrap::ClapTrap(std::string name)
 	: m_name(name)
-	, m_hitpoint(10)
-	, m_energy(10)
-	, m_attack_damage(9)
+	, m_hitpoint(DEFAULT_HP)
+	, m_energy(DEFAULT_ENERGY)
+	, m_attack_damage(DEFAULT_ATK)
 {
 	std::cout << "<ClapTrap> Constructed" << std::endl;
 };

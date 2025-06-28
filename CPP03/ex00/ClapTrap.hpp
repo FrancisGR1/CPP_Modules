@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:28:24 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 11:37:17 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/27 23:42:19 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 #define CLAPTRAP_HPP
 
 #include <iostream>
+
+const unsigned int DEFAULT_HP = 10;
+const unsigned int DEFAULT_ENERGY = 10;
+const unsigned int DEFAULT_ATK = 0;
 
 class ClapTrap
 {

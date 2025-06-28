@@ -6,12 +6,13 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:28:20 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 11:55:18 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 00:34:11 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
+//@TODO: takeDamage(9) correto?
 int main()
 {
 	ClapTrap t("Cat");

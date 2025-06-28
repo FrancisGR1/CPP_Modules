@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:33:37 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 14:57:31 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:19:00 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,22 @@ DiamondTrap::DiamondTrap()
 	, ScavTrap("Default")
 {
 	m_name = "Default";
-	setHp(100);
-	setEnergy(50);
-	setAtkDamage(30);
+	setHp(FRAG_HP);
+	setEnergy(SCAV_ENERGY);
+	setAtkDamage(FRAG_ATK);
 	std::cout << "<DiamondTrap> Default Constructed: " << getName() << std::endl;
 };
 
 DiamondTrap::DiamondTrap(std::string name)
-	: ClapTrap(name + "_clap_name")
+	: ClapTrap(name)
 	, FragTrap(name) 
-	  , ScavTrap(name)
+	, ScavTrap(name)
 {
+	ClapTrap::setName(name + "_clap_name");
 	setName(name);
-	setHp(100);
-	setEnergy(50);
-	setAtkDamage(30);
+	setHp(FRAG_HP);
+	setEnergy(SCAV_ENERGY);
+	setAtkDamage(FRAG_ATK);
 	std::cout << "<DiamondTrap> Constructed: " << getName() << std::endl;
 };
 

@@ -7,7 +7,9 @@ class Animal
 {
 	public:
 		Animal();
-		virtual ~Animal() = 0;
+		Animal(const Animal&);
+		Animal& operator=(const Animal&);
+		virtual ~Animal();
 
 		virtual std::string getType() const = 0;
 		virtual void makeSound() const = 0;

@@ -6,7 +6,7 @@
 /*   By: frmiguel <frmiguel>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 16:33:56 by frmiguel          #+#    #+#             */
-/*   Updated: 2025/06/27 10:44:57 by frmiguel         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:43:33 by frmiguel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define DIAMONDTRAP_HPP
 
 #include "FragTrap.hpp"
+#include "ScavTrap.hpp"
 
 class DiamondTrap : public FragTrap, public ScavTrap
 {
