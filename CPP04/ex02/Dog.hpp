@@ -16,12 +16,10 @@ class Dog : public Animal
 		void makeSound() const;
 		Dog* clone() const;
 
-
 	protected:
 		std::string type;
 
 	private:
 		Brain* b;
-
 };
 #endif /*DOG_HPP*/

@@ -17,12 +17,3 @@ Animal& Animal::operator=(const Animal &other)
 };
 
 Animal::~Animal() { std::cout << "<Animal> destroyed" << std::endl; }
-
-std::string Animal::getType() const { return type; }
-
-void Animal::makeSound() const { std::cout << "(What is the sound of an abstract category?)" << std::endl; }
-
-Animal* Animal::clone() const
-{
-	return (0);
-};

@@ -11,7 +11,10 @@ class MateriaSource : public IMateriaSource
 {
 	public:
 		MateriaSource();
+		MateriaSource(const MateriaSource&);
+		MateriaSource& operator=(const MateriaSource&);
 		virtual ~MateriaSource();
+
 		void learnMateria(AMateria*);
 		AMateria* createMateria(const std::string& type);
 	private:

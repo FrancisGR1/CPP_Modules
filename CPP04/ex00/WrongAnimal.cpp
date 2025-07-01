@@ -3,8 +3,22 @@
 WrongAnimal::WrongAnimal()
 	: type("WrongAnimal") { std::cout << "<WrongAnimal> constructed" << std::endl; }
 
-WrongAnimal::~WrongAnimal() { std::cout << "<WrongAnimal> destructed" << std::endl; }
+WrongAnimal::WrongAnimal(const WrongAnimal& other)
+	: type(other.type)
+{
+	std::cout << "<WrongAnimal> copy constructed" << std::endl;
+};
+
+WrongAnimal& WrongAnimal::operator=(const WrongAnimal& other)
+{
+	std::cout << "<WrongAnimal> Assignment operator called" << std::endl;
+	type = other.type;
+	return (*this);
+};
+
+WrongAnimal::~WrongAnimal() { std::cout << "<WrongAnimal> destroyed" << std::endl; }
 
 std::string WrongAnimal::getType() const { return type; }
-void WrongAnimal::makeSound() const { std::cout << "(What is the sound of an abstract category?)" << std::endl; }
+
+void WrongAnimal::makeSound() const { std::cout << "(What is the sound of an abstract wrong category?)" << std::endl; }
 

@@ -14,20 +14,17 @@ int main()
 	size_t size = 4;
 	Animal* animals[size];
 
-	std::cout << "deep copies: " << std::endl;
 	for (size_t i = 0; i < size; i++)
 	{
-		std::cout << "construct loop: " << i << std::endl;
 		if (i < size / 2)
 			animals[i] = d->clone();
 		else
 			animals[i] = c->clone();
 	}
-	delete d;//should not create a leak
+	delete d;
 	delete c;
 	for (size_t i = 0; i < size; i++)
 	{
-		std::cout << "delete loop: " << i << std::endl;
 		delete animals[i];
 	}
 }

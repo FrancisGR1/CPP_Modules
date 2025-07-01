@@ -10,8 +10,13 @@ class Brain
 	public:
 		Brain();
 		Brain(const Brain&);
+		Brain& operator=(const Brain&);
 		~Brain();
 
 		std::string ideas[IDEAS];
+
+	private:
+		void copyIdeas(const Brain& other);
 };
+
 #endif /*BRAIN_HPP*/

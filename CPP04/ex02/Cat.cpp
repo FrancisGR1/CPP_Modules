@@ -7,8 +7,8 @@ Cat::Cat()
 	std::cout << "<Cat> constructed" << std::endl; 
 }
 
-//@TODO: esta é a implementação correta?
 Cat::Cat(const Cat& other)
+	: Animal(other)
 {
 	type = other.type;
 	b = new Brain(*other.b);

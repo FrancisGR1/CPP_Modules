@@ -21,7 +21,5 @@ class Cat : public Animal
 
 	private:
 		Brain* b;
-
-
 };
 #endif /*CAT_HPP*/

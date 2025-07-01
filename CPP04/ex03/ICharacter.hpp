@@ -8,7 +8,11 @@ class AMateria;
 class ICharacter
 {
 	public:
-		virtual ~ICharacter() {}
+		ICharacter();
+		ICharacter(const ICharacter&);
+		virtual ICharacter& operator=(const ICharacter&) = 0;
+		virtual ~ICharacter();
+
 		virtual std::string const & getName() const = 0;
 		virtual void equip(AMateria* m) = 0;
 		virtual void unequip(int idx) = 0;

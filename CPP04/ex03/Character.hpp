@@ -8,8 +8,11 @@ class Character : public ICharacter
 {
 	public:
 		Character();
+		Character(const Character&);
 		Character(std::string name);
+		Character& operator=(const Character&);
 		~Character();
+
 		const std::string& getName() const;
 		void equip(AMateria* m);
 		void unequip(int idx);
