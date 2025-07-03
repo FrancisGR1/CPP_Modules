@@ -1,14 +1,27 @@
 #include "AMateria.hpp"
 
 AMateria::AMateria() {}
-AMateria::~AMateria() {}
+
+
+AMateria::AMateria(const AMateria& other)
+	: m_type(other.getType())
+{};
 
 AMateria::AMateria(const std::string& type)
 	: m_type(type)
 {};
 
+AMateria& AMateria::operator=(const AMateria& other)
+{
+	m_type = other.getType();
+	return *this;
+};
+
+AMateria::~AMateria() {}
+
 const std::string& AMateria::getType() const { return m_type; }
 
+//@REVIEW: Isto é de propósito? "(void) target"
 void AMateria::use(ICharacter& target) { (void) target; }
 #ifndef AMATERIA_HPP
 #define AMATERIA_HPP
@@ -23,8 +36,11 @@ class AMateria
 		std::string m_type;
 	public:
 		AMateria();
-		AMateria(std::string const & type);
+		AMateria(const AMateria&);
+		AMateria(const std::string&);
+		AMateria& operator=(const AMateria&);
 		virtual ~AMateria();
+
 		std::string const & getType() const;
 		virtual AMateria* clone() const = 0;
 		virtual void use(ICharacter& target);
@@ -113,8 +129,11 @@ class Character : public ICharacter
 {
 	public:
 		Character();
+		Character(const Character&);
 		Character(std::string name);
+		Character& operator=(const Character&);
 		~Character();
+
 		const std::string& getName() const;
 		void equip(AMateria* m);
 		void unequip(int idx);
@@ -129,7 +148,7 @@ class Character : public ICharacter
 #endif /*CHARACTER_HPP*/
 #include "Cure.hpp"
 
-Cure::Cure() : AMateria("ice") {}
+Cure::Cure() : AMateria("cure") {}
 Cure::~Cure(){}
 
 Cure* Cure::clone() const
@@ -153,12 +172,39 @@ class Cure : public AMateria
 
 	public: 
 		Cure();
+		Cure(const Cure&);
+		Cure& operator=(const Cure&);
 		virtual ~Cure();
+
 		Cure* clone() const;
 		void use (ICharacter& target);
 };
 
 #endif /*CURE_HPP*/
+import sys, os
+
+for arg in sys.argv[1:]:
+    if arg.endswith((".hpp", ".h")):
+        filename, extension = os.path.splitext(arg)
+        #with open(filename + ".cpp", "w") as f:
+            #escrever para cpp
+        with open(arg, "w") as f:
+            #header
+            f.write("#ifndef " + filename.upper() + "_" + extension.lstrip(".").upper() + "\n")
+            f.write("#define " + filename.upper() + "_" + extension.lstrip(".").upper() + "\n\n\n")
+
+            #class
+            f.write("class " + filename + "\n" + "{\n")
+            #TODO:
+            #constructor
+            #copy constructor
+            #assignment operator
+            #destructor
+
+            #end
+            f.write("#endif /*" + filename.upper() + "_" + extension.lstrip(".").upper() + "*/\n")
+            #escrever para hpp
+
 #include "Ice.hpp"
 
 Ice::Ice() : AMateria("ice") {}
@@ -185,7 +231,10 @@ class Ice : public AMateria
 
 	public: 
 		Ice();
+		Ice(const Ice&);
+		Ice& operator=(const Ice&);
 		virtual ~Ice();
+
 		Ice* clone() const;
 		void use (ICharacter& target);
 };
@@ -201,7 +250,11 @@ class AMateria;
 class ICharacter
 {
 	public:
-		virtual ~ICharacter() {}
+		ICharacter();
+		ICharacter(const ICharacter&);
+		virtual ICharacter& operator=(const ICharacter&) = 0;
+		virtual ~ICharacter();
+
 		virtual std::string const & getName() const = 0;
 		virtual void equip(AMateria* m) = 0;
 		virtual void unequip(int idx) = 0;
@@ -219,7 +272,10 @@ class ICharacter
 class IMateriaSource
 {
 	public:
-		virtual ~IMateriaSource() {}
+		IMateriaSource();
+		IMateriaSource(const IMateriaSource&);
+		virtual IMateriaSource& operator=(const IMateriaSource&) = 0;
+		virtual ~IMateriaSource();
 		virtual void learnMateria(AMateria*) = 0;
 		virtual AMateria* createMateria(std::string const & type) = 0;
 };
@@ -253,6 +309,7 @@ int main()
 }
 NAME = a.out
 
+CXX     =  c++
 VERSION = -std=c++98 -g
 FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
 SRC     = main.cpp MateriaSource.cpp Character.cpp Ice.cpp Cure.cpp AMateria.cpp
@@ -286,18 +343,38 @@ MateriaSource::MateriaSource()
     {
         m_materias[i] = NULL;
     }
-}
+};
 
-MateriaSource::~MateriaSource() 
+MateriaSource::MateriaSource(const MateriaSource& other)
+	: m_idx(other.m_idx)
 {
     for (size_t i = 0; i < MAX_MATERIAS; i++) 
     {
-        if (m_materias[i]) 
-	{
-            delete m_materias[i];
-        }
+        m_materias[i] = other.m_materias[i];
     }
-}
+};
+
+MateriaSource& MateriaSource::operator=(const MateriaSource& other)
+{
+	m_idx = other.m_idx;
+
+	for (size_t i = 0; i < MAX_MATERIAS; i++) 
+	{
+		m_materias[i] = other.m_materias[i];
+	}
+	return (*this);
+};
+
+MateriaSource::~MateriaSource() 
+{
+	for (size_t i = 0; i < MAX_MATERIAS; i++) 
+	{
+		if (m_materias[i]) 
+		{
+			delete m_materias[i];
+		}
+	}
+};
 
 void MateriaSource::learnMateria(AMateria* creation)
 {
@@ -335,7 +412,10 @@ class MateriaSource : public IMateriaSource
 {
 	public:
 		MateriaSource();
+		MateriaSource(const MateriaSource&);
+		MateriaSource& operator=(const MateriaSource&);
 		virtual ~MateriaSource();
+
 		void learnMateria(AMateria*);
 		AMateria* createMateria(const std::string& type);
 	private:
@@ -344,3 +424,6 @@ class MateriaSource : public IMateriaSource
 };
 
 #endif /*MATERIASOURCE_HPP*/
+#ifndef TEST_HPP
+#define TEST_HPP
+#endif /*TEST_HPP*/

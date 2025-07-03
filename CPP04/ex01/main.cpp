@@ -21,6 +21,7 @@ int main()
 		else
 			animals[i] = c->clone();
 	}
+
 	delete d;
 	delete c;
 	for (size_t i = 0; i < size; i++)

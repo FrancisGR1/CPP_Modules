@@ -20,6 +20,12 @@ int main()
 		else
 			animals[i] = c->clone();
 	}
+	std::cout << "type: " + d->getType() << std::endl;
+	d->makeSound();
+	animals[1]->makeSound();
+	std::cout << "type: " + c->getType() << std::endl;
+	c->makeSound();
+	animals[3]->makeSound();
 	delete d;//should not create a leak
 	delete c;
 	for (size_t i = 0; i < size; i++)

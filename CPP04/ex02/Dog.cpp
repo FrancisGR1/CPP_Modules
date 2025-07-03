@@ -9,9 +9,9 @@ Dog::Dog()
 
 Dog::Dog(const Dog& other)
 	: Animal(other)
+	, type(other.type)
+	, b(new Brain(*other.b))
 {
-	type = other.type;
-	b = new Brain(*other.b);
 	std::cout << "<Dog> copied" << std::endl;
 };
 
@@ -19,6 +19,7 @@ Dog& Dog::operator=(const Dog& other)
 {
 	std::cout << "<Dog> Assignment operator called" << std::endl;
 	type = other.type;
+	b = new Brain(*other.b);
 	return *this;
 };
 

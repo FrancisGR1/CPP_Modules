@@ -1,5 +1,7 @@
 #include "AMateria.hpp"
 #include "MateriaSource.hpp"
+#include "IMateriaSource.hpp"
+#include "ICharacter.hpp"
 #include "Ice.hpp"
 
 MateriaSource::MateriaSource() 
@@ -9,18 +11,39 @@ MateriaSource::MateriaSource()
     {
         m_materias[i] = NULL;
     }
-}
+};
 
-MateriaSource::~MateriaSource() 
+MateriaSource::MateriaSource(const MateriaSource& other)
+	: IMateriaSource(other)
+	, m_idx(other.m_idx)
 {
     for (size_t i = 0; i < MAX_MATERIAS; i++) 
     {
-        if (m_materias[i]) 
-	{
-            delete m_materias[i];
-        }
+        m_materias[i] = other.m_materias[i];
     }
-}
+};
+
+MateriaSource& MateriaSource::operator=(const MateriaSource& other)
+{
+	m_idx = other.m_idx;
+
+	for (size_t i = 0; i < MAX_MATERIAS; i++) 
+	{
+		m_materias[i] = other.m_materias[i];
+	}
+	return (*this);
+};
+
+MateriaSource::~MateriaSource() 
+{
+	for (size_t i = 0; i < MAX_MATERIAS; i++) 
+	{
+		if (m_materias[i]) 
+		{
+			delete m_materias[i];
+		}
+	}
+};
 
 void MateriaSource::learnMateria(AMateria* creation)
 {

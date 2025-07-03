@@ -4,7 +4,8 @@ WrongCat::WrongCat()
 	: type("WrongCat") { std::cout << "<WrongCat> constructed" << std::endl; }
 
 WrongCat::WrongCat(const WrongCat& other)
-	: type(other.type)
+	: WrongAnimal(other)
+	, type(other.type)
 {
 	std::cout << "<WrongCat> copy constructed" << std::endl;
 };

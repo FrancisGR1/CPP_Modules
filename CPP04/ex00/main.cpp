@@ -8,7 +8,7 @@ int main()
 {
 	std::cout << "========== BASE ==========" << std::endl;
 	const Animal* meta = new Animal();
-	const WrongAnimal* wmeta = new WrongAnimal();
+	const WrongAnimal* wmeta = new WrongCat();
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
 	std::cout << j->getType() << " " << std::endl;
