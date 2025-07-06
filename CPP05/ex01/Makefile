@@ -1,0 +1,24 @@
+NAME = a.out
+
+CXX     =  c++
+VERSION = -std=c++23
+FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
+SRC     = main.cpp Form.cpp Bureaucrat.cpp
+OBJ     = $(SRC:.cpp=.o) 
+INC     = Bureaucrat.hpp Form.hpp
+
+all: $(NAME)
+
+$(NAME): $(OBJ) $(INC)
+	$(CXX) $(FLAGS) $(SRC) -o $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(FLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(OBJ)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
