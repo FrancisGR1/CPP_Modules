@@ -1,6 +1,11 @@
-Organizar ficheiros em pastas src, include, obj?
-colocar classes em forma canónica
-rever normas de estilo
-compilar com clang++
-avaliar cada exercício com os sheets
-preciso de meter headers para a norminette?
+criar um .clang-tidy com configurações apropriadas ao meu estilo/estilo da google
+implementar clang-format num script
+modificar clang-format ao meu gosto:
+	declaração de variáveis em construtors têm de estar cada uma numa linha, ex:
+		constructor()
+			: adasd
+			, assda
+			, asdasd
+
+Fazer uma class <Logger> de propósito para printar output
+	https://chatgpt.com/c/686a8170-69f8-800d-b336-ccbe19c30359
