@@ -2,6 +2,8 @@
 #define BUREAUCRAT_HPP
 
 #include <iostream>
+#include <string>
+#include <sstream>
 
 const int MAX_GRADE = 1;
 const int MIN_GRADE = 150;
@@ -12,38 +14,28 @@ class Bureaucrat
 		Bureaucrat();
 		Bureaucrat(const std::string name, int grade);
 		Bureaucrat(Bureaucrat& other);
-		Bureaucrat& operator=(Bureaucrat&) = delete;
+		Bureaucrat& operator=(const Bureaucrat& other);
 		~Bureaucrat();
 
-		const std::string& getName() const { return m_name; }
-		int getGrade() const { return m_grade; }
+		const std::string& getName() const;
+		int getGrade() const;
 
 		void incrementGrade();
 		void decrementGrade();
 
-		class GradeTooHighException : public std::exception
-	{
-		public:
-			explicit GradeTooHighException(const std::string& msg)
-				: m_msg("Caught Error: " + msg + "\n") {}
+		class GradeTooHighException : public std::runtime_error
+		{
+			public:
+				explicit GradeTooHighException(const std::string& msg)
+					: std::runtime_error(msg) {}
+		};
 
-			const char* what() const noexcept override { return m_msg.c_str(); }
-
-		private: 
-			const std::string m_msg;
-	};
-
-		class GradeTooLowException : public std::exception
-	{
-		public:
-			explicit GradeTooLowException(const std::string& msg)
-				: m_msg("Caught Error: " + msg + "\n") {}
-
-			const char* what() const noexcept override { return m_msg.c_str(); }
-
-		private: 
-			const std::string m_msg;
-	};
+		class GradeTooLowException : public std::runtime_error
+		{
+			public:
+				explicit GradeTooLowException(const std::string& msg)
+					: std::runtime_error(msg) {}
+		};
 
 
 	private:

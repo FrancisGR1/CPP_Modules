@@ -1,7 +1,7 @@
 NAME = a.out
 
 CXX     =  c++
-VERSION = -std=c++23
+VERSION = -std=c++98
 FLAGS   = -Werror -Wextra -Wall -Wshadow -Wno-shadow $(VERSION)
 SRC     = main.cpp Bureaucrat.cpp
 OBJ     = $(SRC:.cpp=.o) 

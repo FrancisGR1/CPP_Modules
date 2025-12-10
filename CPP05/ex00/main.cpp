@@ -1,6 +1,6 @@
 #include "Bureaucrat.hpp"
 
-void log_bureaucrat(std::string_view name, std::string_view action, int grade)
+void log_bureaucrat(const std::string& name, const std::string& action, int grade)
 {
 	std::cout << "Intention: to " << action << " " << name << ": " << grade << std::endl;
 }
