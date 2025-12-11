@@ -9,39 +9,34 @@ class Bureaucrat;
 class Form
 {
 	public:
-		Form() = delete;
+		Form();
 		explicit Form(std::string, const int, const int);
-		Form(Form&);
-		Form& operator=(Form&) = delete;
+		Form(Form& other);
+		Form& operator=(Form& other);
 		~Form();
 
-		void beSigned(Bureaucrat&);
+		void beSigned(Bureaucrat& b);
+		std::string getName() const;
+		bool isSigned() const;
+		int getGradeNeededToSign() const;
+		int getGradeNeededToExec() const;
 
-		std::string getName() const { return m_name; }
-		bool isSigned() const { return m_is_signed; }
-		int getGradeNeededToSign() const { return m_grade_needed_to_sign; }
-		int getGradeNeededToExec() const { return m_grade_needed_to_exec; }
-
-		class GradeTooHighException : public std::exception
+		class GradeTooHighException : public std::runtime_error
 		{
 			public:
-				explicit GradeTooHighException()
-					: m_msg("Grade Too High") {}
-				const char* what() const noexcept override { return m_msg.c_str(); }
-			private:
-				const std::string m_msg;
-
+				explicit GradeTooHighException(const std::string& msg)
+					: std::runtime_error(msg) {}
+				GradeTooHighException(const std::string& name, const std::string& msg)
+					: std::runtime_error(name + " couldn't sign form because: " +  msg) {}
 		};
 
-		class GradeTooLowException : public std::exception
+		class GradeTooLowException : public std::runtime_error
 		{
 			public:
-				explicit GradeTooLowException()
-					: m_msg("Grade Too Low") {}
-				const char* what() const noexcept override { return m_msg.c_str(); }
-			private:
-				const std::string m_msg;
-
+				explicit GradeTooLowException(const std::string& msg)
+					: std::runtime_error(msg) {}
+				GradeTooLowException(const std::string& name, const std::string& msg)
+					: std::runtime_error(name + " couldn't sign form because: " +  msg) {}
 		};
 
 	private:
