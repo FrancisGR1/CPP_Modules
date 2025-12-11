@@ -7,47 +7,58 @@
 
 class Bureaucrat;
 
-class AForm {
+class AForm 
+{
 
- public:
-	 inline static constexpr std::string k_default_name = "form";
+	public:
 
-  AForm() = delete;
-  explicit AForm(const std::string, const int, const int);
-  AForm(const AForm&);
-  AForm& operator=(const AForm&) = delete;
-  virtual ~AForm();
+		AForm();
+		explicit AForm(const std::string, const int, const int);
+		AForm(const AForm&);
+		AForm& operator=(const AForm&);
+		virtual ~AForm();
 
-  void beSigned(const Bureaucrat&);
+		void beSigned(const Bureaucrat&);
 
-  std::string getName() const { return m_name; }
-  bool isSigned() const { return m_is_signed; }
-  int getGradeNeededToSign() const { return m_grade_needed_to_sign; }
-  int getGradeNeededToExec() const { return m_grade_needed_to_exec; }
+		std::string getName() const;
+		bool isSigned() const;
+		int getGradeNeededToSign() const;
+		int getGradeNeededToExec() const;
 
-  virtual void execute(const Bureaucrat& executor) const = 0;
-  bool hasRequiredGrades(const Bureaucrat& executor) const;
+		virtual void execute(const Bureaucrat& executor) const = 0;
+		bool hasRequiredGrades(const Bureaucrat& executor) const;
 
-  class GradeTooHighException : public std::exception {
-   public:
-    const char* what() const noexcept override { return "Grade too high"; }
-  };
+		class GradeTooHighException : public std::runtime_error
+		{
+			public:
+				explicit GradeTooHighException(const std::string& msg)
+					: std::runtime_error(msg) {}
+				GradeTooHighException(const std::string& name, const std::string& msg)
+					: std::runtime_error(name + " couldn't sign form because: " +  msg) {}
+		};
 
-  class GradeTooLowException : public std::exception {
-   public:
-    const char* what() const noexcept override { return "Grade too Low"; }
-  };
+		class GradeTooLowException : public std::runtime_error
+		{
+			public:
+				explicit GradeTooLowException(const std::string& msg)
+					: std::runtime_error(msg) {}
+				GradeTooLowException(const std::string& name, const std::string& msg)
+					: std::runtime_error(name + " couldn't sign form because: " +  msg) {}
+		};
 
-  class GradeNotSignedException : public std::exception {
-   public:
-    const char* what() const noexcept override { return "Form not Signed"; }
-  };
 
- private:
-  const std::string m_name;
-  bool m_is_signed;
-  const int m_grade_needed_to_sign;
-  const int m_grade_needed_to_exec;
+			class GradeNotSignedException: public std::runtime_error
+		{
+			public:
+				explicit GradeNotSignedException()
+					: std::runtime_error("form is not signed") {}
+		};
+
+	private:
+		const std::string m_name;
+		bool m_is_signed;
+		const int m_grade_needed_to_sign;
+		const int m_grade_needed_to_exec;
 };
 
 std::ostream& operator<<(std::ostream&, AForm&);

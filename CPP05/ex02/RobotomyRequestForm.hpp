@@ -3,21 +3,23 @@
 
 #include "AForm.hpp"
 
-class RobotomyRequestForm : public AForm {
- public:
+#define RR_SIGN 72
+#define RR_EXEC 45
 
-  inline static constexpr int k_grade_to_sign = 72;
-  inline static constexpr int k_grade_to_exec = 45;
+class RobotomyRequestForm : public AForm 
+{
+	public:
 
-  explicit RobotomyRequestForm(const std::string& target);
-  RobotomyRequestForm(const RobotomyRequestForm&) = default;
-  RobotomyRequestForm& operator=(const RobotomyRequestForm&) = delete;
-  ~RobotomyRequestForm();
+		RobotomyRequestForm();
+		RobotomyRequestForm(const std::string& target);
+		RobotomyRequestForm(const RobotomyRequestForm&);
+		RobotomyRequestForm& operator=(const RobotomyRequestForm&);
+		~RobotomyRequestForm();
 
-  void execute(const Bureaucrat& executor) const override;
+		void execute(const Bureaucrat& executor) const;
 
- private:
-  const std::string m_target;
+	private:
+		const std::string m_target;
 };
 
 #endif /*ROBOTOMYREQUESTFORM_HPP*/

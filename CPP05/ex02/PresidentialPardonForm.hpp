@@ -3,20 +3,23 @@
 
 #include "AForm.hpp"
 
-class PresidentialPardonForm : public AForm {
- public:
-  inline static constexpr int k_grade_to_sign = 25;
-  inline static constexpr int k_grade_to_exec = 5;
+#define PP_SIGN 25
+#define PP_EXEC 5
 
-  explicit PresidentialPardonForm(const std::string& target);
-  PresidentialPardonForm(const PresidentialPardonForm&) = default;
-  PresidentialPardonForm& operator=(const PresidentialPardonForm&) = delete;
-  ~PresidentialPardonForm();
+class PresidentialPardonForm : public AForm 
+{
+	public:
 
-  void execute(const Bureaucrat& executor) const override;
+		PresidentialPardonForm();
+		explicit PresidentialPardonForm(const std::string& target);
+		PresidentialPardonForm(const PresidentialPardonForm&);
+		PresidentialPardonForm& operator=(const PresidentialPardonForm&);
+		~PresidentialPardonForm();
 
- private:
-  const std::string m_target;
+		void execute(const Bureaucrat& executor) const;
+
+	private:
+		const std::string m_target;
 };
 
 #endif /*PRESIDENTIALPARDONFORM_HPP*/

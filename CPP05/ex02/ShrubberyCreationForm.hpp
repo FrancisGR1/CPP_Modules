@@ -4,20 +4,22 @@
 #include <fstream>
 #include "AForm.hpp"
 
-class ShrubberyCreationForm : public AForm {
- public:
-	 inline static constexpr int k_grade_to_sign = 145;
-	 inline static constexpr int k_grade_to_exec = 137;
+#define SC_SIGN 145
+#define SC_EXEC 137
 
-  explicit ShrubberyCreationForm(const std::string& target);
-  ShrubberyCreationForm(ShrubberyCreationForm&) = default;
-  ShrubberyCreationForm& operator=(ShrubberyCreationForm&) = delete;
-  ~ShrubberyCreationForm();
+class ShrubberyCreationForm : public AForm 
+{
+	public:
+		ShrubberyCreationForm();
+		ShrubberyCreationForm(const std::string& target);
+		ShrubberyCreationForm(const ShrubberyCreationForm&);
+		ShrubberyCreationForm& operator=(const ShrubberyCreationForm&);
+		~ShrubberyCreationForm();
 
-  void execute(const Bureaucrat& executor) const override;
+		void execute(const Bureaucrat& executor) const;
 
- private:
-  const std::string m_target;
+	private:
+		const std::string m_target;
 };
 
 #endif /*SHRUBBERYCREATIONFORM_HPP*/

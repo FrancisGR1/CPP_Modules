@@ -1,10 +1,21 @@
 #include "RobotomyRequestForm.hpp"
 
+RobotomyRequestForm::RobotomyRequestForm()
+	: AForm()
+	, m_target("default target")
+{}
+
 RobotomyRequestForm::RobotomyRequestForm(const std::string& target)
-	: AForm(k_default_name, k_grade_to_sign, k_grade_to_exec)
+	: AForm("Robotomy Request", RR_SIGN, RR_EXEC)
 	, m_target(target)
 {
 	std::cout << "<RobotymRequestForm> " << getName() << " constroyed" << std::endl;
+};
+
+RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& other)
+{
+	AForm::operator=(other);
+	return *this;
 };
 
 RobotomyRequestForm::~RobotomyRequestForm()
@@ -21,11 +32,10 @@ void RobotomyRequestForm::execute(const Bureaucrat& executor) const {
 	else if (!hasRequiredGrades(executor))
 	{
 		std::cout << "Roboty failed!" << std::endl;
-		throw(GradeTooLowException());
+		throw(GradeTooLowException(executor.getName(), "doesn't have the required grades"));
 	}
 	else
-		std::cout << "TREARARRERRARATATRARARARARARARARA "
-			<< std::endl
-			<< m_target << " has been robotomized successfully 50% of the time "
-			<< std::endl;
+	{
+		std::cout << "TREARARRERRARATATRARARARARARARARA\n" << m_target << " has been robotomized successfully 50% of the time\n";
+	}
 };
