@@ -2,7 +2,8 @@
 #include "Bureaucrat.hpp"
 #include "Intern.hpp"
 
-int main(void) {
+int main(void) 
+{
 
 	Intern new_guy;
 	Bureaucrat important_guy("Roy", 5);
@@ -27,12 +28,15 @@ int main(void) {
 
 	std::cout << "\n========== Wrong Form ==========" << std::endl;
 	std::string wrong_type = "blablabla";
-	try {
-	AForm *wrong = new_guy.makeForm(wrong_type, "Hector");
-	important_guy.signForm(*wrong);
-	wrong->execute(important_guy); 
-	delete wrong;
-	} catch (const std::exception& e) {
+	try 
+	{
+		AForm *wrong = new_guy.makeForm(wrong_type, "Hector");
+		important_guy.signForm(*wrong);
+		wrong->execute(important_guy); 
+		delete wrong;
+	} 
+	catch (const std::exception& e) 
+	{
 		std::cout << e.what() << ": " << wrong_type << " is not a type" << std::endl;
 	}
 
