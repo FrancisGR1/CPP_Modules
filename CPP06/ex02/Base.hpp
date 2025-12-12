@@ -2,16 +2,19 @@
 #define BASE_HPP
 
 #include <iostream>
-#include <random>
+#include <ctime>
+#include <cstdlib>
 
-class Base {
- public:
-  virtual ~Base() = default;
-  static Base* generate();
-  static void identify(Base* p);
-  static void identify(Base& p);
+class Base 
+{
+	public:
+		virtual ~Base();
 
- private:
+		static Base* generate();
+		static void identify(Base* p);
+		static void identify(Base& p);
+
+	private:
 };
 
 #endif /*BASE_HPP*/

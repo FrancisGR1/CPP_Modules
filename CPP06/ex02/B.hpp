@@ -3,9 +3,10 @@
 
 #include "Base.hpp"
 
-class B : public Base {
- public:
- private:
+class B : public Base 
+{
+	public:
+	private:
 };
 
 #endif /*B_HPP*/

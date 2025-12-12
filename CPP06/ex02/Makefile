@@ -1,15 +1,10 @@
 NAME  = identify
 
 CXX   = c++
-FLAGS = -Werror -Wextra -Wall -std=c++23
+FLAGS = -Werror -Wextra -Wall -std=c++98
 SRCS  = main.cpp Base.cpp 
 OBJS  = $(SRCS:.cpp=.o)
 INC   = Base.hpp A.hpp B.hpp C.hpp
-
-CLANG_TIDY    = clang-tidy
-CLANG_FORMAT  = clang-format
-FORMAT_STYLE  = file
-
 
 all: $(NAME)
 
@@ -29,11 +24,3 @@ fclean: clean
 
 .PHONY: re
 re: fclean all
-
-.PHONY: format
-format:
-	@$(CLANG_FORMAT) -i --style=$(FORMAT_STYLE) $(SRCS) $(INC)
-
-.PHONY: tidy
-tidy:
-	@$(CLANG_TIDY) $(SRCS) -- $(FLAGS)
