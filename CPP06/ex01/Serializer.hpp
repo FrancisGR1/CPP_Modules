@@ -2,16 +2,19 @@
 #define SERIALIZER_HPP
 
 #include "Data.hpp"
+#include <stdint.h>
 
-class Serializer {
- public:
-  static uintptr_t serialize(Data* ptr);
-  static Data* deserialize(uintptr_t raw);
+class Serializer 
+{
+	public:
+		static uintptr_t serialize(Data* ptr);
+		static Data* deserialize(uintptr_t raw);
 
-  Serializer() = delete;
-  Serializer(const Serializer&) = delete;
-  Serializer& operator=(const Serializer&) = delete;
-  ~Serializer() = delete;
+	private:
+		Serializer();
+		Serializer(const Serializer&);
+		Serializer& operator=(const Serializer&);
+		~Serializer();
 };
 
 #endif /*SERIALIZER_HPP*/

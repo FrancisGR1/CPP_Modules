@@ -1,8 +1,8 @@
 NAME  = ptr_serializer
 
 CXX   = c++
-FLAGS = -Werror -Wextra -Wall -std=c++23
-SRCS  = main.cpp Serializer.cpp
+FLAGS = -Werror -Wextra -Wall -std=c++98
+SRCS  = main.cpp Data.cpp Serializer.cpp
 OBJS  = $(SRCS:.cpp=.o)
 INC   = Data.hpp Serializer.hpp 
 
