@@ -2,93 +2,82 @@
 
 double ScalarConverter::m_value = 0.0;
 
-void ScalarConverter::convert(const std::string& literal) {
-  try {
-    m_value = literal.length() == 1 && !isdigit(literal.at(0))
-                  ? static_cast<double>(literal.at(0))
-                  : std::stod(literal);
+void ScalarConverter::convert(const std::string& literal) 
+{
+	char *endptr;
+	m_value = literal.length() == 1 && !isdigit(literal.at(0))
+		? static_cast<double>(literal.at(0))
+		: strtod(literal.c_str(), &endptr);
 
-    std::cout << std::fixed << std::setprecision(1);
-    auto error = ScalarConverter::invalid_int(m_value);
-    std::cout << "char: "
-              << (error ? error.value()
-                        : print_value(static_cast<unsigned char>(m_value)))
-              << std::endl;
-    std::cout << "int: "
-              << (error ? error.value()
-                        : print_value(static_cast<int>(m_value)))
-              << std::endl;
-    error = ScalarConverter::invalid_float(m_value);
-    std::cout << "float: "
-              << (error ? error.value()
-                        : print_value(static_cast<float>(m_value)))
-              << std::endl;
-    error = ScalarConverter::invalid_double(m_value);
-    std::cout << "double: " << (error ? error.value() : print_value(m_value))
-              << std::endl;
-  } catch (const std::invalid_argument& e) {
-    std::cerr << "Invalid input: '" << literal << "' is not a number."
-              << std::endl;
-  } catch (const std::out_of_range& e) {
-    std::cerr << "Out of range: '" << literal
-              << "' is too large or small to convert." << std::endl;
-  }
+	char *literal_end = ((char *)literal.c_str()) + (literal.size());
+	if (endptr != literal_end)
+	{
+		if (*endptr == 'f' && (endptr + 1) == literal_end)
+			++endptr;
+		else
+		{
+			std::cerr << "String is not a number\n";
+			return ;
+		}
+	}
+
+	std::cout << std::fixed << std::setprecision(1);
+	std::cout << "char: "   << to_string(static_cast<unsigned char>(m_value), m_value) << "\n";
+	std::cout << "int: "    << to_string(static_cast<int>(m_value), m_value) << "\n";
+	std::cout << "float: "  << to_string(static_cast<float>(m_value), m_value) << "\n";
+	std::cout << "double: " << to_string(m_value) << "\n";
 };
 
-std::string ScalarConverter::print_value(unsigned char value) {
-  std::string result = "non displayable";
-
-  if (std::isprint(value))
-    result = std::string(1, static_cast<unsigned char>(value));
-
-  return result;
+std::string ScalarConverter::to_string(unsigned char value, double original_value = 0) 
+{
+	if (original_value > 255 || original_value < 0 || std::isnan(original_value) || std::isinf(original_value))
+		return "impossible";
+	else if (std::isprint(value))
+		return std::string(1, value);
+	else
+		return "non displayable";
 };
 
-std::string ScalarConverter::print_value(int value) {
-  std::string result = std::to_string(value);
+std::string ScalarConverter::to_string(int value, double original_value = 0) 
+{
+	if (std::isnan(original_value) || original_value < static_cast<int>(std::numeric_limits<int>::min()) ||
+			original_value > static_cast<int>(std::numeric_limits<int>::max()))
+		return "impossible";
 
-  return result;
+	std::stringstream ss;
+	ss << value;
+	return ss.str();
 };
 
-std::string ScalarConverter::print_value(float value) {
-  std::ostringstream oss;
-  oss << std::fixed << std::setprecision(1) << value << "f";
-  std::string result = oss.str();
-
-  return result;
+std::string ScalarConverter::to_string(float value, double original_value = 0) 
+{
+	if (std::isnan(value))
+		return "nanf";
+	else if (std::isinf(value))
+		return (std::signbit(value) ? "-inff" : "+inff");
+	else if (original_value <= static_cast<float>(std::numeric_limits<float>::min()) ||
+			original_value >= static_cast<float>(std::numeric_limits<float>::max()))
+		return "impossible";
+	else
+	{
+		std::ostringstream oss;
+		oss << std::fixed << std::setprecision(1) << value << "f";
+		std::string result = oss.str();
+		return result;
+	}
 };
 
-std::string ScalarConverter::print_value(double value) {
-  std::ostringstream oss;
-  oss << std::fixed << std::setprecision(1) << value;
-  std::string result = oss.str();
-
-  return result;
-};
-
-std::optional<std::string> ScalarConverter::invalid_float(double input) {
-  float finput = static_cast<float>(input);
-  if (std::isnan(finput))
-    return "nanf";
-  if (std::isinf(finput))
-    return (std::signbit(finput) ? "-inf" : "+inf");
-
-  return std::nullopt;
-};
-
-std::optional<std::string> ScalarConverter::invalid_double(double input) {
-  if (std::isnan(input))
-    return "nan";
-  if (std::isinf(input))
-    return (std::signbit(input) ? "-inf" : "+inf");
-
-  return std::nullopt;
-};
-
-std::optional<std::string> ScalarConverter::invalid_int(double input) {
-  if (input < static_cast<double>(std::numeric_limits<int>::min()) ||
-      input > static_cast<double>(std::numeric_limits<int>::max()))
-    return "overflow";
-
-  return std::nullopt;
+std::string ScalarConverter::to_string(double value) 
+{
+	if (std::isnan(value))
+		return "nan";
+	else if (std::isinf(value))
+		return (std::signbit(value) ? "-inf" : "+inf");
+	else
+	{
+		std::ostringstream oss;
+		oss << std::fixed << std::setprecision(1) << value;
+		std::string result = oss.str();
+		return result;
+	}
 };
