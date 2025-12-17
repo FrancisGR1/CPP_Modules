@@ -2,41 +2,43 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
+#include <limits>
+
 #include "BitcoinExchange.hpp"
 
 BitcoinExchange::BitcoinExchange()
-	: m_prices_database_path("data.csv")
+	: m_exchange_rate_db_path("data.csv")
 {
-	load_database(m_prices_database_path);
+	load_database();
 };
 
 BitcoinExchange::BitcoinExchange(const char *prices_database_path) 
-	: m_prices_database_path(prices_database_path)
+	: m_exchange_rate_db_path(prices_database_path)
 {
-	load_database(m_prices_database_path);
+	load_database();
 };
 
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) 
-	: m_prices_database_path(other.m_prices_database_path)
+	: m_exchange_rate_db_path(other.m_exchange_rate_db_path)
 	, m_database(other.m_database) {}
 
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) 
 {
-	m_prices_database_path = other.m_prices_database_path;
+	m_exchange_rate_db_path = other.m_exchange_rate_db_path;
 	m_database = other.m_database;
 	return *this;
 };
 
 BitcoinExchange::~BitcoinExchange() {}
 
-void BitcoinExchange::evaluate(const char *evaluation_path) {};
-
-void BitcoinExchange::load_database(const std::string& m_prices_database_path)
+void BitcoinExchange::evaluate(const std::string& evaluation_path) 
 {
-	std::ifstream file(m_prices_database_path.c_str());
+	std::cout << "Evaluating file: " << evaluation_path << "\n";
+	std::ifstream file(evaluation_path.c_str());
 	if (!file)
 	{
-		throw std::runtime_error("Error: Can't open: " + m_prices_database_path);
+		throw std::runtime_error("Error: Can't open: " + evaluation_path);
 	}
 
 	std::string line;
@@ -44,17 +46,61 @@ void BitcoinExchange::load_database(const std::string& m_prices_database_path)
 	std::getline(file, line);
 	while (std::getline(file, line))
 	{
-		for (size_t idx = 0; idx < line.size(); ++idx)
+		try
 		{
+			size_t idx = 0;
 			skip_whitespaces(line, idx);
-			Date date = str_to_date(line, idx);
+			size_t date_str_start = idx;
+			Date date = to_date(line, idx);
+			size_t date_str_end = idx;
 			skip_whitespaces(line, idx);
-			expect(",", line, idx);
+			expect("|", line, idx);
 			skip_whitespaces(line, idx);
-			ExchangeRate er = str_to_exchange_rate(line, idx);
+			ExchangeRate er = to_exchange_rate(line, idx);
+			if (er < 0.0 || er > 1000.0)
+				throw std::runtime_error("Error: value must be between 0 and 1000");
+			skip_whitespaces(line, idx);
+			if (idx != line.size())
+				throw std::runtime_error("Error: expected end of line after exchange rate: " + line);
+
+			std::map<Date, ExchangeRate>::iterator it = m_database.lower_bound(date);
+			std::string date_str = line.substr(date_str_start, date_str_end - date_str_start);
+			std::cout << date_str << " => " << er << " = " << er * it->second << "\n";
+
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << e.what() << "\n";
 		}
 	};
+};
 
+void BitcoinExchange::load_database()
+{
+	std::cout << "Loading database: " << m_exchange_rate_db_path << "\n";
+	std::ifstream file(m_exchange_rate_db_path.c_str());
+	if (!file)
+	{
+		throw std::runtime_error("Error: Can't open: " + m_exchange_rate_db_path);
+	}
+
+	std::string line;
+	//@NOTE:skip first line
+	std::getline(file, line);
+	while (std::getline(file, line))
+	{
+		size_t idx = 0;
+		skip_whitespaces(line, idx);
+		Date date = to_date(line, idx);
+		skip_whitespaces(line, idx);
+		expect(",", line, idx);
+		skip_whitespaces(line, idx);
+		ExchangeRate er = to_exchange_rate(line, idx);
+		skip_whitespaces(line, idx);
+		if (idx != line.size())
+			throw std::runtime_error("Error: expected end of line after exchange rate: " + line);
+		m_database[date] = er;
+	};
 };
 
 void BitcoinExchange::skip_whitespaces(const std::string& line, size_t& idx)
@@ -63,26 +109,114 @@ void BitcoinExchange::skip_whitespaces(const std::string& line, size_t& idx)
 		++idx;
 };
 
-BitcoinExchange::Date BitcoinExchange::str_to_date(const std::string& line, size_t& idx)
+// YYYY-MM-DD
+BitcoinExchange::Date BitcoinExchange::to_date(const std::string& line, size_t& idx)
 {
+	Date date;
+
 	if (idx >= line.size())
 	{
 		throw std::runtime_error("Error: bad input => " + line);
 	}
+	// YYYY
+	std::string year_str = "";
+	for (; idx < line.size(); ++idx)
+	{
+		char c = line.at(idx);
 
-	return 1;
+		if (!(std::isdigit(c)))
+			break;
+		year_str += c;
+	}
+	if (year_str.size() < 4)
+		throw std::runtime_error("Error: invalid year format: " + line);
+
+	int year = std::atoi(year_str.c_str());
+	if (year < 2009)
+		throw std::runtime_error("Error: invalid year. Is below first year (2009): " + year_str);
+	if (year > 2025)
+		throw std::runtime_error("Error: invalid year. Is above current year (2025): " + year_str);
+	date = year;
+
+	skip_whitespaces(line, idx);
+	expect("-", line, idx);
+	skip_whitespaces(line, idx);
+
+	// MM
+	std::string month_str = "";
+	for (; idx < line.size(); ++idx)
+	{
+		char c = line.at(idx);
+
+		if (!(std::isdigit(c)))
+			break;
+		month_str += c;
+	}
+	if (month_str.size() < 2)
+		throw std::runtime_error("Error: invalid month format: " + line);
+
+	int month = std::atoi(month_str.c_str());
+	if (month < 0 || month > 12)
+		throw std::runtime_error("Error: invalid month number: " + month_str);
+	date =  date * 100 + month;
+
+	skip_whitespaces(line, idx);
+	expect("-", line, idx);
+	skip_whitespaces(line, idx);
+
+	// DD
+	std::string day_str = "";
+	for (; idx < line.size(); ++idx)
+	{
+		char c = line.at(idx);
+
+		if (!(std::isdigit(c)))
+			break;
+		day_str += c;
+	}
+	if (day_str.size() < 2)
+		throw std::runtime_error("Error: invalid day format: " + line);
+
+	int day = std::atoi(day_str.c_str());
+	if (day < 0 || day > 31)
+		throw std::runtime_error("Error: invalid day number: " + day_str);
+	date =  date * 100 + day;
+
+	return date;
 };
 
-BitcoinExchange::ExchangeRate BitcoinExchange::str_to_exchange_rate(const std::string& line, size_t& idx)
+BitcoinExchange::ExchangeRate BitcoinExchange::to_exchange_rate(const std::string& line, size_t& idx)
 {
 	if (idx >= line.size())
 	{
 		throw std::runtime_error("Error: bad input => " + line);
 	}
-	return 1;
+
+	std::string er_str = line.substr(idx);
+	char *end = NULL;
+	double er = std::strtod(er_str.c_str(), &end);
+	if (end == er_str.c_str())
+		throw std::runtime_error("Error: couldn't convert exchange rate => " + line);
+	if (er > std::numeric_limits<ExchangeRate>::max())
+		throw std::runtime_error("Error: exchange rate too large => " + er_str);
+	if (er < 0.0)
+		throw std::runtime_error("Error: negative exchange rate => " + er_str);
+
+	size_t increment = end - er_str.c_str();
+	idx += increment;
+
+	return static_cast<ExchangeRate>(er);
 };
 
 void BitcoinExchange::expect(const std::string& str, const std::string& line, size_t& idx)
 {
-	if (
+	if (idx + str.size() >= line.size() || str != line.substr(idx, str.size()))
+	{
+		const std::string error_msg = 
+			"Error: expected '" + str + 
+			"'. Got: '" + line.substr(idx, str.size()) +
+			"'. In line: '" + line + "'";
+		throw std::runtime_error(error_msg);
+	}
+	++idx;
 };

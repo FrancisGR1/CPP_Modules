@@ -8,14 +8,16 @@ int main(int argc, char **argv)
 		std::cerr << "./btc <prices_database_path>\n";
 		return 1;
 	}
+
 	try
 	{
-		const char *prices_database_path = "data.csv";
-		BitcoinExchange btc(prices_database_path);
-		btc.evaluate(argv[1]);
+		const char *prices = "data.csv";
+		BitcoinExchange btc(prices);
+		const std::string evaluation = argv[1];
+		btc.evaluate(evaluation);
 	}
 	catch (const std::exception& e)
 	{
-		std::cerr << e.what() << "\n";
+		std::cerr << "Database: " << e.what() << "\n";
 	}
 }
