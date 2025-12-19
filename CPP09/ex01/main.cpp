@@ -14,7 +14,8 @@ int main(int argc, char **argv)
 	{
 		RPN calculator;
 		const std::string expr(argv[1]);
-		std::cout << calculator.compute(expr) << "\n";
+		int result = calculator.compute(expr);
+		std::cout << "\nFinal result: " << result << "\n";
 	}
 	catch (const std::exception& e)
 	{

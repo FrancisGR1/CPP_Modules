@@ -13,11 +13,10 @@ class RPN
 		int compute(const std::string& expr);
 
 	private:
-		std::queue<char> m_output;
-		std::stack<char> m_operators;
-		std::stack<int> m_result;
+		std::stack<int> m_output;
 
 		//utils
 		bool has_precedence(char op1, char op2);
 		bool is_operator(char op);
+		void print_stack();
 };
