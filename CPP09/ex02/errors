@@ -1,0 +1,42 @@
+/usr/bin/ld: PMergeMe.o: in function `PMergeMe::PMergeMe(int, char**)':
+PMergeMe.cpp:(.text+0x46d): undefined reference to `Group::Group(int, int)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x488): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x4be): undefined reference to `Group::Group(int)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x4d9): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x677): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x68c): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.o: in function `PMergeMe::apply()':
+PMergeMe.cpp:(.text+0x854): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x8ab): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x8e7): undefined reference to `Group::Group(Group const&, Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x909): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x926): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x948): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x954): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x969): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x98b): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0x997): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0xa5d): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0xa72): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0xa87): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.o:PMergeMe.cpp:(.text+0xa9c): more undefined references to `Group::~Group()' follow
+/usr/bin/ld: PMergeMe.o: in function `PMergeMe::print_groups() const':
+PMergeMe.cpp:(.text+0xbf1): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0xc07): undefined reference to `operator<<(std::ostream&, Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text+0xc28): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.cpp:(.text+0xc8c): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.o: in function `std::vector<Group, std::allocator<Group> >::push_back(Group const&)':
+PMergeMe.cpp:(.text._ZNSt6vectorI5GroupSaIS0_EE9push_backERKS0_[_ZNSt6vectorI5GroupSaIS0_EE9push_backERKS0_]+0x8d): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.o: in function `std::vector<Group, std::allocator<Group> >::_M_realloc_insert(__gnu_cxx::__normal_iterator<Group*, std::vector<Group, std::allocator<Group> > >, Group const&)':
+PMergeMe.cpp:(.text._ZNSt6vectorI5GroupSaIS0_EE17_M_realloc_insertEN9__gnu_cxx17__normal_iteratorIPS0_S2_EERKS0_[_ZNSt6vectorI5GroupSaIS0_EE17_M_realloc_insertEN9__gnu_cxx17__normal_iteratorIPS0_S2_EERKS0_]+0x16d): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.cpp:(.text._ZNSt6vectorI5GroupSaIS0_EE17_M_realloc_insertEN9__gnu_cxx17__normal_iteratorIPS0_S2_EERKS0_[_ZNSt6vectorI5GroupSaIS0_EE17_M_realloc_insertEN9__gnu_cxx17__normal_iteratorIPS0_S2_EERKS0_]+0x34f): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.o: in function `void std::_Destroy<Group>(Group*)':
+PMergeMe.cpp:(.text._ZSt8_DestroyI5GroupEvPT_[_ZSt8_DestroyI5GroupEvPT_]+0x18): undefined reference to `Group::~Group()'
+/usr/bin/ld: PMergeMe.o: in function `void std::_Construct<Group, Group>(Group*, Group const&)':
+PMergeMe.cpp:(.text._ZSt10_ConstructI5GroupS0_EvPT_RKT0_[_ZSt10_ConstructI5GroupS0_EvPT_RKT0_]+0x40): undefined reference to `Group::Group(Group const&)'
+/usr/bin/ld: PMergeMe.o: in function `Group* std::__copy_move<false, false, std::random_access_iterator_tag>::__copy_m<Group const*, Group*>(Group const*, Group const*, Group*)':
+PMergeMe.cpp:(.text._ZNSt11__copy_moveILb0ELb0ESt26random_access_iterator_tagE8__copy_mIPK5GroupPS3_EET0_T_S8_S7_[_ZNSt11__copy_moveILb0ELb0ESt26random_access_iterator_tagE8__copy_mIPK5GroupPS3_EET0_T_S8_S7_]+0x39): undefined reference to `Group::operator=(Group const&)'
+/usr/bin/ld: PMergeMe.o: in function `Group* std::__copy_move<false, false, std::random_access_iterator_tag>::__copy_m<Group*, Group*>(Group*, Group*, Group*)':
+PMergeMe.cpp:(.text._ZNSt11__copy_moveILb0ELb0ESt26random_access_iterator_tagE8__copy_mIP5GroupS4_EET0_T_S6_S5_[_ZNSt11__copy_moveILb0ELb0ESt26random_access_iterator_tagE8__copy_mIP5GroupS4_EET0_T_S6_S5_]+0x39): undefined reference to `Group::operator=(Group const&)'
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:12: PMergeMe] Error 1
