@@ -1,10 +1,10 @@
 NAME  = PMergeMe
 
 CXX   = c++ -std=c++98
-FLAGS = -Werror -Wextra -Wall
-SRCS  = main.cpp Group.cpp PMergeMe.cpp CmpCounter.cpp
+FLAGS = -g -Werror -Wextra -Wall
+SRCS  = main.cpp Match.cpp Player.cpp PMergeMe.cpp CmpCounter.cpp
 OBJS  = $(SRCS:.cpp=.o)
-INC   = Group.hpp PMergeMe.hpp CmpCounter.hpp
+INC   = Match.hpp Player.hpp PMergeMe.hpp CmpCounter.hpp
 
 all: $(NAME)
 

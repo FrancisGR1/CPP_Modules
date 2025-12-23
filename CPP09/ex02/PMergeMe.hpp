@@ -1,36 +1,35 @@
 #ifndef PMERGME_HPP
 #define PMERGME_HPP
 
-#include "Group.hpp"
+#include "Match.hpp"
 
 #include <vector>
 #include <deque>
 #include <sstream>
 
+//@TODO: tornar em estática
 class PMergeMe
 {
 	public:
-		typedef std::vector<Group> LeveledGroups;
-
 		PMergeMe();
 		PMergeMe(int argc, char **argv);
 		PMergeMe(const PMergeMe& other);
 		PMergeMe& operator=(const PMergeMe& other);
 		~PMergeMe();
 
-		void apply();
+		void merge_insert_sort();
 		void print() const;
-		void print_groups() const;
+		void print_matches() const;
+		void print_ranking() const;
 
 	private:
-		std::vector<LeveledGroups> m_groups;
-		size_t m_lvl;
-		//@TODO eliminar?
-		size_t m_group_size; //@TODO: isto é confuso; pode confudir-se com m_groups.size()
+		std::vector<Match>   m_tourney;
+		std::vector<Player*> m_ranking;
 
+		// utils
+		void rearrange_player_position(Player* p, size_t bracket);
 		bool is_number(const std::string& s) const;
-
-		void update_group_size();
+		void error(const char *str);
 };
 
-#endif //PMERGME_HPP
+#endif // PMERGME_HPP

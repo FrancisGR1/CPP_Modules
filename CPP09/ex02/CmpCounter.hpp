@@ -8,7 +8,18 @@ struct CmpCounter
 	static size_t comparisons;
 
 	template <typename T>
-	static bool less(T a, T b);
+	static bool less(const T& a, const T& b)
+	{
+		++comparisons;
+		return a < b;
+	};
+
+	template <typename T>
+	static bool geq(const T& a, const T& b)
+	{
+		++comparisons;
+		return a >= b;
+	};
 };
 
 #endif //CMP_COUNTER_HPP
