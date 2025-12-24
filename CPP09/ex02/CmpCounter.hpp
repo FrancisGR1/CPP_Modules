@@ -15,10 +15,31 @@ struct CmpCounter
 	};
 
 	template <typename T>
+	static bool greater(const T& a, const T& b)
+	{
+		++comparisons;
+		return a > b;
+	};
+
+	template <typename T>
+	static bool eq(const T& a, const T& b)
+	{
+		++comparisons;
+		return a == b;
+	};
+
+	template <typename T>
 	static bool geq(const T& a, const T& b)
 	{
 		++comparisons;
 		return a >= b;
+	};
+
+	template <typename T>
+	static bool leq(const T& a, const T& b)
+	{
+		++comparisons;
+		return a <= b;
 	};
 };
 

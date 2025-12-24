@@ -82,6 +82,23 @@ PMergeMe::~PMergeMe()
 	}
 }
 
+// https://www.geeksforgeeks.org/dsa/binary-insertion-sort/
+static int binary_search(const std::vector<Player*>& v, int target, int low, int high)
+{
+	CmpCounter::comparisons++;
+
+	if (high <= low)
+		return (target > v[low]->value) ? (low + 1) : low;
+
+	int mid = (low + high) / 2;
+
+	if (target == v[mid]->value)
+		return mid + 1;
+	if (target > v[mid]->value)
+		return binary_search(v, target, mid + 1, high);
+	return binary_search(v, target, low, mid - 1);
+}
+
 //@TODO: implementar template
 void PMergeMe::merge_insert_sort()
 {
@@ -156,21 +173,15 @@ void PMergeMe::merge_insert_sort()
 		//inserir losers
 		//@TODO: por agora: brute force; implementar jacobsthal idx  + bs no futuro
 		std::cout << "test\n";
+		//@TODO: implementar jacobsthal
+		//binary search
 		for (size_t i = 0; i < m_tourney[bracket].losers.size(); ++i)
 		{
-			Player* insert = m_tourney[bracket].losers[i];
-
-			std::vector<Player*>::iterator it = m_ranking.begin();
-			std::vector<Player*>::iterator end = m_ranking.end();
-
-			for (; it != end; ++it)
-			{
-				if (CmpCounter::geq((*it)->value, insert->value))
-					break;
-			}
-
-			m_ranking.insert(it, insert);
+			Player* target = m_tourney[bracket].losers[i];
+			int insert = binary_search(m_ranking, target->value, 0, m_ranking.size());
+			m_ranking.insert(m_ranking.begin() + insert, target);
 		}
+
 		--bracket;
 	}
 }
