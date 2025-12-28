@@ -2,8 +2,7 @@
 #include <vector>
 #include <deque>
 
-#include "PMergeMe.hpp"
-#include "Time.hpp"
+#include "PmergeMe.hpp"
 #include "Matches.hpp"
 #include "Player.hpp"
 
@@ -14,9 +13,9 @@ int main(int argc, char **argv)
 	{
 		std::cout << "Before: "; utils::print_argv(argc, argv);
 
-		PMergeMe<std::vector<Matches>, std::vector<Player*> > fj1;
+		PmergeMe<std::vector<Matches>, std::vector<Player*> > fj1;
 		fj1.sort(argc, argv);
-		PMergeMe<std::deque<Matches>, std::deque<Player*> > fj2;
+		PmergeMe<std::deque<Matches>, std::deque<Player*> > fj2;
 		fj2.sort(argc, argv);
 
 		std::cout << "After:  "; fj1.print_ranking();
