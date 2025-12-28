@@ -4,6 +4,7 @@
 #include <ostream>
 #include <sstream>
 
+#include "utils.hpp"
 #include "Player.hpp"
 #include "Matches.hpp"
 
@@ -22,22 +23,15 @@ Matches& Matches::operator=(const Matches& bracket)
 
 Matches::~Matches() {}
 
-static size_t numWidth(int n)
-{
-    std::ostringstream oss;
-    oss << n;
-    return oss.str().length();
-}
-
 std::ostream& operator<<(std::ostream& os, const Matches& m)
 {
     size_t maxWidth = 0;
 
     std::stringstream oss;
     for (size_t i = 0; i < m.winners.size(); ++i)
-        maxWidth = std::max(maxWidth, numWidth(m.winners[i]->value));
+        maxWidth = std::max(maxWidth, utils::num_width(m.winners[i]->value));
     for (size_t i = 0; i < m.losers.size(); ++i)
-        maxWidth = std::max(maxWidth, numWidth(m.losers[i]->value));
+        maxWidth = std::max(maxWidth, utils::num_width(m.losers[i]->value));
 
     os << "\n\tWinners: [";
     for (size_t i = 0; i < m.winners.size(); ++i)

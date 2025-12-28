@@ -7,6 +7,7 @@ namespace utils
 {
 	bool is_valid_number(const std::string& s);
 	void print_argv(int argc, char **argv);
+	size_t num_width(int n);
 
 	template<typename T>
 	int binary_search(const T& data, int target, int low, int high)

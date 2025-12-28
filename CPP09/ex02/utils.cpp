@@ -1,9 +1,6 @@
 #include <sstream>
 #include <iostream>
-#include <vector>
 #include <string>
-
-#include "Player.hpp"
 
 namespace utils 
 {
@@ -21,5 +18,12 @@ namespace utils
 			std::cout << argv[i] << " ";
 		}
 		std::cout << "\n";
+	}
+
+	size_t num_width(int n)
+	{
+		std::ostringstream oss;
+		oss << n;
+		return oss.str().length();
 	}
 }

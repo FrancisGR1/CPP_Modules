@@ -6,23 +6,6 @@
 double Time::m_start = 0.0;
 double Time::m_end   = 0.0;
 
-//Time::Time()
-//	: m_start(0)
-//	, m_end(0) {}
-//
-//Time::Time(const Time& other)
-//	: m_start(other.m_start)
-//	, m_end(other.m_end) {}
-//
-//Time::operator=(const Time& other)
-//{
-//	m_start = other.m_start;
-//	m_end = other.m_end;
-//	return *this;
-//}
-//
-//Time::~Time(){}
-
 void Time::start()
 {
 	m_start = now();

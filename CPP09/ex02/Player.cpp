@@ -1,5 +1,27 @@
 #include <vector>
+
 #include "Player.hpp"
+
+Player::Player()
+	: value(0)
+	, swapped(false) {}
+
+Player::Player(const Player& other)
+	: value(other.value)
+	, adversary(other.adversary)
+	, bracket_idx(other.bracket_idx)
+	, swapped(other.swapped) {}
+
+Player& Player::operator=(const Player& other)
+{
+	value = other.value;
+	adversary = other.adversary;
+	bracket_idx = other.bracket_idx;
+	swapped = other.swapped;
+	return *this;
+}
+
+Player::~Player(){}
 
 Player::Player(int n1, size_t idx)
 	: value(n1)

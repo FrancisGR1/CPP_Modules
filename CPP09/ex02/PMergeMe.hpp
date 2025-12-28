@@ -43,34 +43,6 @@ PMergeMe<C1, C2>::PMergeMe()
 	: m_size(0)
 	, m_time(0) {}
 
-
-
-template <typename C1, typename C2>
-std::vector<size_t> PMergeMe<C1, C2>::build_jacobsthal_order(size_t n)
-{
-    std::vector<size_t> order;
-    size_t prev = 0;
-    size_t k = 1;
-
-    while (true)
-    {
-        size_t J = jacobsthal(k);
-        if (J > n)
-            J = n;
-
-        for (size_t i = J; i > prev; --i)
-            order.push_back(i - 1);
-
-        if (J == n)
-            break;
-
-        prev = J;
-        ++k;
-    }
-    return order;
-}
-
-
 template <typename C1, typename C2>
 PMergeMe<C1, C2>::PMergeMe(const PMergeMe& other)
 	: m_tourney(other.m_tourney)
@@ -113,6 +85,7 @@ void PMergeMe<C1, C2>::sort(int argc, char **argv)
 	if (argc < 2)
 		throw std::runtime_error("./PMergeMe <nums>");
 
+	// Load numbers in container
 	Matches m;
 	for (int i = 1; i < argc; i+= 2)
 	{
@@ -151,6 +124,7 @@ void PMergeMe<C1, C2>::sort(int argc, char **argv)
 	}
 	m_tourney.push_back(m);
 
+	// Play out the tourney
 	Matches prev = m_tourney.back();
 	size_t winners = prev.winners.size();
 	while (winners > 1)
@@ -175,10 +149,11 @@ void PMergeMe<C1, C2>::sort(int argc, char **argv)
 		winners = m.winners.size();
 	}
 
-	// Create m_ranking with first two numbers
+	// Create m_ranking with first two numbers (1st and 2nd place9
 	m_ranking.push_back(prev.losers[0]);
 	m_ranking.push_back(prev.winners[0]);
 
+	// Build the global ranking
 	int bracket = m_tourney.size() - 2; // Last before last bracket
 	while (bracket >= 0)
 	{
@@ -235,6 +210,31 @@ template <typename C1, typename C2>
 double PMergeMe<C1, C2>::time() const
 {
 	return m_time;
+}
+
+template <typename C1, typename C2>
+std::vector<size_t> PMergeMe<C1, C2>::build_jacobsthal_order(size_t n)
+{
+    std::vector<size_t> order;
+    size_t prev = 0;
+    size_t k = 1;
+
+    while (true)
+    {
+        size_t J = jacobsthal(k);
+        if (J > n)
+            J = n;
+
+        for (size_t i = J; i > prev; --i)
+            order.push_back(i - 1);
+
+        if (J == n)
+            break;
+
+        prev = J;
+        ++k;
+    }
+    return order;
 }
 
 template <typename C1, typename C2>

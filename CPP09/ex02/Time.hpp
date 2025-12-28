@@ -12,7 +12,7 @@ class Time
 	private:
 		Time();
 		Time(const Time& other);
-		//operator=(const Time& other);
+		Time& operator=(const Time& other);
 		~Time();
 
 		static double m_start;
