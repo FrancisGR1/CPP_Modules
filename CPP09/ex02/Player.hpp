@@ -16,7 +16,6 @@ struct Player
 
 	void set_adversary(Player* opponent);
 	void register_idx(size_t idx);
-	size_t get_prev_bracket_idx() const;
 	size_t get_prev_bracket_idx(size_t current_bracket) const;
 };
 

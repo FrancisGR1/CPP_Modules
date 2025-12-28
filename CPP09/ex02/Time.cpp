@@ -1,0 +1,46 @@
+#include <cstddef>
+#include <sys/time.h>
+
+#include "Time.hpp"
+
+double Time::m_start = 0.0;
+double Time::m_end   = 0.0;
+
+//Time::Time()
+//	: m_start(0)
+//	, m_end(0) {}
+//
+//Time::Time(const Time& other)
+//	: m_start(other.m_start)
+//	, m_end(other.m_end) {}
+//
+//Time::operator=(const Time& other)
+//{
+//	m_start = other.m_start;
+//	m_end = other.m_end;
+//	return *this;
+//}
+//
+//Time::~Time(){}
+
+void Time::start()
+{
+	m_start = now();
+}
+
+void Time::stop()
+{
+	m_end = now();
+}
+
+double Time::elapsed()
+{
+	return m_end - m_start;
+}
+
+double Time::now()
+{
+	timeval t;
+	gettimeofday(&t, NULL);
+	return t.tv_sec + t.tv_usec * 1e-6;
+}

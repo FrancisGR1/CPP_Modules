@@ -27,5 +27,5 @@ Com brute force:
 11 elements -> 35 comparações
 Com binary search:
 11 elements -> 35 comparações
-Com binary search + jacobsthall indexes:
-11 elements -> 35 comparações
+Com binary search + jacobsthal indexes:
+11 elements -> 32
