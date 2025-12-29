@@ -54,39 +54,6 @@ std::ostream& operator<<(std::ostream& os, const Matches& m)
     return os;
 }
 
-void Matches::match(Player* p1, size_t p1_idx, Player* p2, size_t p2_idx)
-{
-	p1->set_adversary(p2);
-	p2->set_adversary(p1);
-
-	p1->register_idx(p1_idx);
-	p2->register_idx(p2_idx);
-
-	if (p1->value < p2->value)
-	{
-		winners.push_back(p2);
-		losers.push_back(p1);
-	}
-	else
-	{
-		winners.push_back(p1);
-		losers.push_back(p2);
-	}
-}
-
-void Matches::match(Player *p1, size_t p1_idx)
-{
-	p1->set_adversary(NULL);
-	p1->register_idx(p1_idx);
-	losers.push_back(p1);
-}
-
-void Matches::match(Player *p1)
-{
-	p1->set_adversary(NULL);
-	losers.push_back(p1);
-}
-
 void Matches::match(Player* p1, Player* p2)
 {
 	p1->set_adversary(p2);
@@ -94,12 +61,23 @@ void Matches::match(Player* p1, Player* p2)
 
 	if (p1->value < p2->value)
 	{
+		p1->register_idx(losers.size());
+		p2->register_idx(winners.size());
 		winners.push_back(p2);
 		losers.push_back(p1);
 	}
 	else
 	{
+		p1->register_idx(winners.size());
+		p2->register_idx(losers.size());
 		winners.push_back(p1);
 		losers.push_back(p2);
 	}
+}
+
+void Matches::match(Player *p1)
+{
+	p1->set_adversary(NULL);
+	p1->register_idx(losers.size());
+	losers.push_back(p1);
 }

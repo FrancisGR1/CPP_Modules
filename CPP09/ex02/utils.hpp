@@ -1,19 +1,22 @@
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include <iostream>
 #include <string>
+#include <algorithm>
+#include <iostream>
+
+#include "Player.hpp"
 
 namespace utils
 {
 	bool is_valid_number(const std::string& s);
 	void print_argv(int argc, char **argv);
 	size_t num_width(int n);
+	bool player_less(const Player* a, const Player* b);
 
-	template<typename T>
-	int binary_search(const T& data, int target, int low, int high)
+	template<typename Container>
+	int binary_search(const Container& data, int target, int low, int high)
 	{
-		std::cout << "low: " << low << " high: " << high << "\n";
 		if (high <= low)
 			return (target > data.at(low)->value) ? (low + 1) : low;
 
@@ -26,6 +29,24 @@ namespace utils
 		return binary_search(data, target, low, mid - 1);
 	};
 
+
+	template<typename Container>
+	bool is_sorted(const Container& data)
+	{
+		Container sorted = data;
+
+		std::sort(sorted.begin(), sorted.end(), player_less);
+
+		for (size_t i = 0; i < sorted.size(); ++i)
+		{
+			if (sorted[i]->value != data[i]->value)
+			{
+				std::cerr << i << ": Not equal: " << sorted[i]->value << " != " << data[i]->value << "\n";
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
 #endif //UTILS_HPP

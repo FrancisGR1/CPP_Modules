@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 
 #include "Player.hpp"
 
@@ -23,12 +24,9 @@ Player& Player::operator=(const Player& other)
 
 Player::~Player(){}
 
-Player::Player(int n1, size_t idx)
+Player::Player(int n1)
 	: value(n1)
-	, swapped(false)
-{
-	bracket_idx.push_back(idx);
-}
+	, swapped(false) {}
 
 Player::Player(Player* other, size_t idx)
 	: value(other->value)
@@ -53,4 +51,20 @@ size_t Player::get_prev_bracket_idx(size_t current_bracket) const
 	if (current_bracket == 0)
 		return bracket_idx[0];
 	return bracket_idx[current_bracket - 1];
+}
+
+std::ostream& operator<<(std::ostream& os, const Player& p)
+{
+	os << "Value: " << p.value << " ";
+	os << "Adversary: ";
+	if (p.adversary)
+		os << p.adversary->value << " ";
+	else
+		os << "NULL" << " ";
+	os << "Swapped: " << std::boolalpha << p.swapped << " ";
+	os << "Idxs: ";
+	for (size_t i = 0; i < p.bracket_idx.size(); ++i)
+		os << "[" << i << "]" << p.bracket_idx[i] << " ";
+	os << "\n";
+	return os;
 }

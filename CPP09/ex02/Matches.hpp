@@ -17,10 +17,8 @@ struct Matches
 		Matches& operator=(const Matches& bracket);
 		~Matches();
 
-		void match(Player* p1, size_t p1_idx, Player* p2, size_t p2_idx);
-		void match(Player* p1, size_t p1_idx);
 		void match(Player* p1, Player* p2);
-		void match(Player *p1);
+		void match(Player* p1);
 };
 
 std::ostream& operator<<(std::ostream& os, const Matches& m);

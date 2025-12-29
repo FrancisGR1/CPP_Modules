@@ -2,6 +2,8 @@
 #include <iostream>
 #include <string>
 
+#include "Player.hpp"
+
 namespace utils 
 {
 	bool is_valid_number(const std::string& s)
@@ -26,4 +28,9 @@ namespace utils
 		oss << n;
 		return oss.str().length();
 	}
+
+	bool player_less(const Player* a, const Player* b)
+	{
+		return a->value < b->value;
+	};
 }

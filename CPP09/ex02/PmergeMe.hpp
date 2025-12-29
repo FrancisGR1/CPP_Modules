@@ -23,6 +23,7 @@ class PmergeMe
 		void sort(int argc, char **argv);
 		size_t size() const;
 		double time() const;
+		const C2& get() const;
 
 		void print_matches() const;
 		void print_ranking() const;
@@ -80,13 +81,11 @@ PmergeMe<C1, C2>::~PmergeMe()
 template <typename C1, typename C2>
 void PmergeMe<C1, C2>::sort(int argc, char **argv)
 {
-	std::cout << "SORTING\n";
 	Time::start();
 
 	if (argc < 2)
 		throw std::runtime_error("./PMergeMe <nums>");
 
-	std::cout << "Load\n";
 	// Load numbers in container
 	Matches m;
 	for (int i = 1; i < argc; i+= 2)
@@ -97,7 +96,7 @@ void PmergeMe<C1, C2>::sort(int argc, char **argv)
 		if (utils::is_valid_number(argv[i]))
 		{
 			n1 = atoi(argv[i]);
-			p1 = new Player(n1, i);
+			p1 = new Player(n1);
 			m_size++;
 		}
 		else
@@ -110,7 +109,7 @@ void PmergeMe<C1, C2>::sort(int argc, char **argv)
 			if (utils::is_valid_number(argv[i + 1]))
 			{
 				int n2 = atoi(argv[i + 1]);
-				Player* p2 = new Player(n2, i + 1);
+				Player* p2 = new Player(n2);
 				m.match(p1, p2);
 				m_size++;
 			}
@@ -126,7 +125,6 @@ void PmergeMe<C1, C2>::sort(int argc, char **argv)
 	}
 	m_tourney.push_back(m);
 
-	std::cout << "Tourney\n";
 	// Play out the tourney
 	Matches prev = m_tourney.back();
 	size_t winners = prev.winners.size();
@@ -135,11 +133,11 @@ void PmergeMe<C1, C2>::sort(int argc, char **argv)
 		Matches m;
 		for (size_t i = 0; i < winners; i += 2)
 		{
-			Player* p1 = new Player(prev.winners[i]->value, i);
+			Player* p1 = new Player(prev.winners[i]->value);
 			if (i + 1 < winners)
 			{ 
-				Player* p2 = new Player(prev.winners[i + 1], i + 1);
-				m.match(p1, i, p2, i + 1);
+				Player* p2 = new Player(prev.winners[i + 1]->value);
+				m.match(p1, p2);
 			}
 			else
 			{
@@ -152,24 +150,34 @@ void PmergeMe<C1, C2>::sort(int argc, char **argv)
 		winners = m.winners.size();
 	}
 
-	// Create m_ranking with first two numbers (1st and 2nd place)
+	// Create m_ranking with first two numbers (1st and 2nd place) (and possibly 3rd place)
 	if (prev.losers.size() == 1)
+	{
+		prev.losers[0]->register_idx(0);
 		m_ranking.push_back(prev.losers[0]);
+		prev.winners[0]->register_idx(1);
+		m_ranking.push_back(prev.winners[0]);
+	}
 	else
 	{
-		std::sort(prev.losers.begin(), prev.losers.end());
-		m_ranking.push_back(prev.losers[0]);
-		m_ranking.push_back(prev.losers[1]);
+		Player *second_loser = NULL;
+		if (prev.losers[1]->value > prev.losers[0]->value)
+		{
+			m_ranking.push_back(prev.losers[0]);
+			m_ranking.push_back(prev.winners[0]);
+			second_loser = prev.losers[1];
+		}
+		else
+		{
+			m_ranking.push_back(prev.losers[1]);
+			m_ranking.push_back(prev.winners[0]);
+			second_loser = prev.losers[0];
+		}
+		int insert_idx = utils::binary_search(m_ranking, second_loser->value, 0, m_ranking.size() - 1);
+		m_ranking.insert(m_ranking.begin() + insert_idx, second_loser);
 	}
-
-	assert((prev.losers.size() <= 2));
-	m_ranking.push_back(prev.winners[0]);
-
-	std::cout << "Ranking\n";
 	// Build the global ranking
 	int bracket = m_tourney.size() - 2; // Last before last bracket
-	print_matches();
-	print_ranking();
 	while (bracket >= 0)
 	{
 		for (size_t i = 0; i < m_ranking.size(); ++i)
@@ -190,29 +198,16 @@ void PmergeMe<C1, C2>::sort(int argc, char **argv)
 			p->adversary->swapped = true;
 
 			std::swap(*w, *l);
-			std::swap(*w->adversary, *l->adversary);
 		}
 
-		std::cout << "Jacobsthal\n";
 		std::vector<size_t> order = build_jacobsthal_order(m_tourney[bracket].losers.size());
+		//@TODO: é possível otimizar isto?
 		for (size_t i = 0; i < order.size(); ++i)
 		{
 			Player* target = m_tourney[bracket].losers[order[i]];
-			std::cout << target << "\n";
-			assert((target->adversary->bracket_idx.size() <= m_ranking.size()));
-			std::cout << "sizes: " << target->adversary->bracket_idx.size() << " <-> " << m_ranking.size() << "\n";
-			if (target->adversary)
-				std::cout << "adver: " << target->adversary->bracket_idx[bracket] << "\n";
-			int end = target->adversary
-				? target->adversary->bracket_idx[bracket] 
-				: m_ranking.size();
-			std::cout << "end: " << end << " size: " << m_ranking.size() << "\n";
-			std::cout << "bin enter\n";
-			int insert_idx = utils::binary_search(m_ranking, target->value, 0, end);
-			std::cout << "bin exit\n";
-			std::cout << "insert enter\n";
+
+			int insert_idx = utils::binary_search(m_ranking, target->value, 0, m_ranking.size() - 1);
 			m_ranking.insert(m_ranking.begin() + insert_idx, target);
-			std::cout << "insert exit\n";
 		}
 		--bracket;
 	}
@@ -233,7 +228,13 @@ double PmergeMe<C1, C2>::time() const
 	return m_time;
 }
 
-	template <typename C1, typename C2>
+template <typename C1, typename C2>
+const C2& PmergeMe<C1, C2>::get() const
+{
+	return m_ranking;
+}
+
+template <typename C1, typename C2>
 std::vector<size_t> PmergeMe<C1, C2>::build_jacobsthal_order(size_t n)
 {
 	std::vector<size_t> order;
@@ -242,17 +243,14 @@ std::vector<size_t> PmergeMe<C1, C2>::build_jacobsthal_order(size_t n)
 
 	while (true)
 	{
-		std::cout << "prev: " << prev << "\n";
 		size_t J = jacobsthal(k);
 		if (J > n)
 			J = n;
 
 		for (size_t i = J; i > prev; --i)
 		{
-			std::cout << "push: " << i << "\n";
 			order.push_back(i - 1);
 		}
-		std::cout << "out\n";
 
 		if (J == n)
 			break;
@@ -260,11 +258,10 @@ std::vector<size_t> PmergeMe<C1, C2>::build_jacobsthal_order(size_t n)
 		prev = J;
 		++k;
 	}
-	std::cout << "ret\n";
 	return order;
 }
 
-	template <typename C1, typename C2>
+template <typename C1, typename C2>
 size_t PmergeMe<C1, C2>::jacobsthal(size_t n)
 {
 	if (n == 0)
@@ -298,7 +295,7 @@ void PmergeMe<C1, C2>::print_ranking() const
 	std::cout << "\n";
 }
 
-	template <typename C1, typename C2>
+template <typename C1, typename C2>
 void PmergeMe<C1, C2>::error(const char *str)
 {
 	throw std::runtime_error("Error: Not a valid number: " + std::string(str));
