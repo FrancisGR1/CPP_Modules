@@ -49,7 +49,11 @@ int RPN::compute(const std::string& expr)
 			if (c == '*')
 				m_output.push(lv * rv);
 			if (c == '/')
+			{
+				if (rv == 0)
+					throw std::runtime_error("Error: Division by 0");
 				m_output.push(lv / rv);
+			}
 			if (c == '-')
 				m_output.push(lv - rv);
 			if (c == '+')

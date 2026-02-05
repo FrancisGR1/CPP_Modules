@@ -1,5 +1,4 @@
 #include <stack>
-#include <queue>
 #include <string>
 
 class RPN
