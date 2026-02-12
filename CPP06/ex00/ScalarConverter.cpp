@@ -1,3 +1,10 @@
+#include <cmath>
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
+#include <limits>
+#include <sstream>
+
 #include "ScalarConverter.hpp"
 
 double ScalarConverter::m_value = 0.0;

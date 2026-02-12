@@ -1,12 +1,7 @@
 #ifndef SCALARCONVERTER_HPP
 #define SCALARCONVERTER_HPP
 
-#include <cmath>
-#include <cstdlib>
-#include <iomanip>
-#include <iostream>
-#include <limits>
-#include <sstream>
+#include <string>
 
 class ScalarConverter 
 {
@@ -21,6 +16,13 @@ class ScalarConverter
 		ScalarConverter(const ScalarConverter&);
 		ScalarConverter& operator=(const ScalarConverter&);
 		~ScalarConverter();
+
+		// utils
+		static std::string to_string(unsigned char value, double original_value);
+		static std::string to_string(int value, double original_value);
+		static std::string to_string(float value, double original_value);
+		static std::string to_string(double value);
+
 };
 
 #endif /*SCALARCONVERTER_HPP*/
