@@ -13,10 +13,10 @@ INC   = ScalarConverter.hpp
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(INC)
+$(NAME): $(OBJS)
 	$(CXX) $(FLAGS) -o $@ $^
 
-%.o: %.cpp
+%.o: %.cpp $(INC)
 	$(CXX) $(FLAGS) -c $< -o $@
 
 .PHONY: clean
