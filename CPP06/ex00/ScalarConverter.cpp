@@ -11,7 +11,7 @@ double ScalarConverter::m_value = 0.0;
 
 void ScalarConverter::convert(const std::string& literal) 
 {
-	char *endptr;
+	char *endptr = NULL;
 	m_value = literal.length() == 1 && !isdigit(literal.at(0))
 		? static_cast<double>(literal.at(0))
 		: strtod(literal.c_str(), &endptr);
