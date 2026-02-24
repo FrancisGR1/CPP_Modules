@@ -17,7 +17,7 @@ void ScalarConverter::convert(const std::string& literal)
 		: strtod(literal.c_str(), &endptr);
 
 	char *literal_end = ((char *)literal.c_str()) + (literal.size());
-	if (endptr != literal_end)
+	if (endptr && endptr != literal_end)
 	{
 		if (*endptr == 'f' && (endptr + 1) == literal_end)
 			++endptr;
