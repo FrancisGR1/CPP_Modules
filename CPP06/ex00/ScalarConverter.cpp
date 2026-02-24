@@ -11,27 +11,19 @@ double ScalarConverter::m_value = 0.0;
 
 void ScalarConverter::convert(const std::string& literal) 
 {
+	// parser number
 	char *endptr = NULL;
-	m_value = literal.length() == 1 && !isdigit(literal.at(0))
-		? static_cast<double>(literal.at(0))
-		: strtod(literal.c_str(), &endptr);
-
-	char *literal_end = ((char *)literal.c_str()) + (literal.size());
-	if (endptr && endptr != literal_end)
-	{
-		if (*endptr == 'f' && (endptr + 1) == literal_end)
-			++endptr;
-		else
-		{
-			std::cerr << "String is not a number\n";
-			return ;
-		}
-	}
+	m_value = strtod(literal.c_str(), &endptr);
 
 	std::cout << std::fixed << std::setprecision(1);
+
+	// transform to string:
 	std::cout << "char: "   << to_string(static_cast<unsigned char>(m_value), m_value) << "\n";
+
 	std::cout << "int: "    << to_string(static_cast<int>(m_value), m_value) << "\n";
+
 	std::cout << "float: "  << to_string(static_cast<float>(m_value), m_value) << "\n";
+
 	std::cout << "double: " << to_string(m_value) << "\n";
 };
 
@@ -47,8 +39,8 @@ std::string ScalarConverter::to_string(unsigned char value, double original_valu
 
 std::string ScalarConverter::to_string(int value, double original_value = 0) 
 {
-	if (std::isnan(original_value) || original_value < static_cast<int>(std::numeric_limits<int>::min()) ||
-			original_value > static_cast<int>(std::numeric_limits<int>::max()))
+	if (std::isnan(original_value) || original_value < -std::numeric_limits<int>::max() ||
+			original_value > std::numeric_limits<int>::max())
 		return "impossible";
 
 	std::stringstream ss;
@@ -62,8 +54,8 @@ std::string ScalarConverter::to_string(float value, double original_value = 0)
 		return "nanf";
 	else if (std::isinf(value))
 		return (std::signbit(value) ? "-inff" : "+inff");
-	else if (original_value <= static_cast<float>(std::numeric_limits<float>::min()) ||
-			original_value >= static_cast<float>(std::numeric_limits<float>::max()))
+	else if (original_value <= -std::numeric_limits<float>::max() ||
+			original_value >= std::numeric_limits<float>::max())
 		return "impossible";
 	else
 	{
