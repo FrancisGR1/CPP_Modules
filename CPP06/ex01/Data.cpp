@@ -1,9 +1,11 @@
 #include "Data.hpp"
 
-void set_data(Data* d, const std::string& name, const std::string& location)
+void Data::set_name(const std::string& str)
 {
-	if (!d)
-		return;
-	d->name = name;
-	d->location = location;
-};
+	name = str;
+}
+
+void Data::set_location(const std::string& str)
+{
+	location = str;
+}

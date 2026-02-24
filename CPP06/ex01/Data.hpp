@@ -7,8 +7,9 @@ struct Data
 {
   std::string name;
   std::string location;
-};
 
-void set_data(Data* d, const std::string& name, const std::string& location);
+  void set_name(const std::string& str);
+  void set_location(const std::string& str);
+};
 
 #endif /*DATA_HPP*/

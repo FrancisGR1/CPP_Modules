@@ -2,12 +2,14 @@
 
 int main() 
 {
+	// allocate
 	Data* person = new Data;
-	set_data(person, "Raul", "Siberia");
+	person->set_name("Raul");
+	person->set_location("Siberia");
 
 	std::cout << "========= BEFORE ==========" << std::endl;
-	std::cout << "Data: " << "name: " << person->name << std::endl
-		<< "location: " << person->location << std::endl;
+	std::cout << "Data:\n" << "\tname: " << person->name << std::endl
+		<< "\tlocation: " << person->location << std::endl;
 
 	std::cout << "\n========= SERIALIZATION ==========" << std::endl;
 	uintptr_t serialized = Serializer::serialize(person);
@@ -18,8 +20,8 @@ int main()
 
 	std::cout << "\n========= AFTER ==========" << std::endl;
 	Data* deserialized = Serializer::deserialize(serialized);
-	std::cout << "Data: " << "name: " << deserialized->name << std::endl
-		<< "location: " << deserialized->location << std::endl;
+	std::cout << "Data:\n" << "\tname: " << deserialized->name << std::endl
+		<< "\tlocation: " << deserialized->location << std::endl;
 
 	delete person;
 	return 0;
