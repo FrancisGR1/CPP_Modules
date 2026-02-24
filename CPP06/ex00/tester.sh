@@ -12,10 +12,12 @@ tests=(
 #infinity
 "+inf" "-inf"
 "+inff" "-inff"
-#doubles
+#scientific notation
 "1e3" "1e309"
 #words
 "hello" "42abc"
+#whitespaces
+"         42.f" "42.f               " "          42.f          "
 )
 
 for t in "${tests[@]}"
