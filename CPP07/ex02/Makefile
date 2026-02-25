@@ -1,7 +1,7 @@
 NAME  = a.out
 
 CXX   = c++ -std=c++98
-FLAGS = -Werror -Wextra -Wall -c
+FLAGS = -Werror -Wextra -Wall
 SRCS  = main.cpp 
 OBJS  = $(SRCS:.cpp=.o)
 INC   = Array.hpp
@@ -27,4 +27,4 @@ re: fclean all
 
 .PHONY: show_instantiated_templates
 show_instantiated_templates: 
-	nm main.o | c++filt | grep Array
+	nm main.o | c++filt
