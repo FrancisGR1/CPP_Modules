@@ -7,25 +7,63 @@
 
 #include "ScalarConverter.hpp"
 
-double ScalarConverter::m_value = 0.0;
-
 void ScalarConverter::convert(const std::string& literal) 
 {
-	// parser number
-	char *endptr = NULL;
-	m_value = strtod(literal.c_str(), &endptr);
+	double value = 0;
 
-	std::cout << std::fixed << std::setprecision(1);
+	// check for specific strings
+	if (literal == "nan" || literal == "nanf")
+	{
+		value = std::numeric_limits<double>::quiet_NaN();
+	}
+	else if (literal == "+inf" || literal == "+inff")
+	{
+		value = std::numeric_limits<double>::infinity();
+	}
+	else if (literal == "-inf" || literal == "-inff")
+	{
+		value = -std::numeric_limits<double>::infinity();
+	}
+	else if (literal.size() == 1)
+	{
+		if (!std::isdigit(literal[0]))
+		{
+			value = static_cast<double>(literal[0]);
+		}
+	}
+	else if (is_number(literal))
+	{
+			char *endptr = NULL;
+			value = strtod(literal.c_str(), &endptr);
+	}
+	else
+	{
+		std::cout << "Not a number nor a literal\n";
+		return;
+	}
+
+
+	std::cout << std::fixed << std::setprecision(0);
 
 	// transform to string:
-	std::cout << "char: "   << to_string(static_cast<unsigned char>(m_value), m_value) << "\n";
+	std::cout << "char: "   << to_string(static_cast<unsigned char>(value), value) << "\n";
 
-	std::cout << "int: "    << to_string(static_cast<int>(m_value), m_value) << "\n";
+	std::cout << "int: "    << to_string(static_cast<int>(value), value) << "\n";
 
-	std::cout << "float: "  << to_string(static_cast<float>(m_value), m_value) << "\n";
+	std::cout << "float: "  << to_string(static_cast<float>(value), value) << "\n";
 
-	std::cout << "double: " << to_string(m_value) << "\n";
+	std::cout << "double: " << to_string(value) << "\n";
 };
+
+bool ScalarConverter::is_number(const std::string& literal)
+{
+	for (size_t i = 0; i < literal.size(); ++i)
+	{
+		if (!std::isdigit(literal[i]))
+			return false;
+	}
+	return true;
+}
 
 std::string ScalarConverter::to_string(unsigned char value, double original_value = 0) 
 {

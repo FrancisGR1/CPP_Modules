@@ -8,10 +8,7 @@ class ScalarConverter
 	public:
 		static void convert(const std::string&);
 
-
 	private:
-		static double m_value;
-
 		ScalarConverter();
 		ScalarConverter(const ScalarConverter&);
 		ScalarConverter& operator=(const ScalarConverter&);
@@ -22,6 +19,7 @@ class ScalarConverter
 		static std::string to_string(int value, double original_value);
 		static std::string to_string(float value, double original_value);
 		static std::string to_string(double value);
+		static bool is_number(const std::string& literal);
 
 };
 
