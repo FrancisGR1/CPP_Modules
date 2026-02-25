@@ -26,19 +26,16 @@ void ScalarConverter::convert(const std::string& literal)
 	}
 	else if (literal.size() == 1)
 	{
-		if (!std::isdigit(literal[0]))
-		{
-			value = static_cast<double>(literal[0]);
-		}
+		value = static_cast<double>(literal[0]);
 	}
 	else if (is_number(literal))
 	{
-			char *endptr = NULL;
-			value = strtod(literal.c_str(), &endptr);
+		char *endptr = NULL;
+		value = strtod(literal.c_str(), &endptr);
 	}
 	else
 	{
-		std::cout << "Not a number nor a literal\n";
+		std::cout << "Not a number\n";
 		return;
 	}
 
