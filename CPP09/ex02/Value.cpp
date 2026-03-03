@@ -1,6 +1,9 @@
 #include <sstream>
+#include <iostream>
 
 #include "Value.hpp"
+
+size_t Value::total_comparisons = 0;
 
 Value::Value(char* str_number, unsigned int uid)
 	: number(0)
@@ -19,3 +22,15 @@ Value::Value(unsigned int number, unsigned int uid)
 Value::Value(const Value& other)
 	: number(other.number)
 	, unique_id(other.unique_id) {}
+
+bool Value::operator>(const Value& other) const
+{ 
+	total_comparisons++;
+	return number > other.number;
+}
+
+bool Value::operator==(const Value& other) const
+{ 
+	total_comparisons++;
+	return number == other.number;
+}

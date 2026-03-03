@@ -27,11 +27,10 @@ template <typename Container>
 void Round<Container>::match_and_save(const Value& v1, size_t v1_index, const Value& v2, size_t v2_index, std::vector<ValueMetaData>& values_info)
 {
 
-	if (v1.number > v2.number)
+	if (v1 > v2)
 	{
 		winners.push_back(v1);
 		losers.push_back(v2);
-		//@TODO AQUI - fazer Position
 		values_info[v1.unique_id].set(v1_index, WINNER);
 		values_info[v2.unique_id].set(v2_index, LOSER);
 	}

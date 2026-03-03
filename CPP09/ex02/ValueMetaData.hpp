@@ -30,9 +30,9 @@ struct ValueMetaData
 	// @ASSUMPTION: position of each rank is only set once, so a push_back = new rank
 	void set(size_t index, Status status);
 
-	Value m_value;
+	Value value;
 	std::vector<Position> round;
-	size_t rank_pos;
+	long rank_idx;
 
 };
 
