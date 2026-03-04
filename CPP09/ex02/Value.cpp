@@ -1,5 +1,4 @@
 #include <sstream>
-#include <iostream>
 
 #include "Value.hpp"
 
@@ -27,10 +26,4 @@ bool Value::operator>(const Value& other) const
 { 
 	total_comparisons++;
 	return number > other.number;
-}
-
-bool Value::operator==(const Value& other) const
-{ 
-	total_comparisons++;
-	return number == other.number;
 }

@@ -136,11 +136,11 @@ void PmergeMeVector::sort(int argc, char **argv)
 			m_rounds.rbegin(); rit != m_rounds.rend(); ++rit)
 	{
 		const Round<std::vector<Value> >& round = *rit;
-		//@TODO jacobsthal indices
+		std::vector<size_t> order_idx = build_jacobsthal_order(round.losers.size());
 		for (size_t i = 0; i < round.losers.size(); ++i)
 		{
-			const Value& to_insert = round.losers[i];
-			size_t upper_idx = get_max_bound(i, round);
+			const Value& to_insert = round.losers[order_idx[i]];
+			size_t upper_idx = get_max_bound(order_idx[i], round);
 			size_t insertion_idx = final_rank_binary_insertion(to_insert, 0, upper_idx);
 			std::cout << "Insert '" << to_insert.number << "' at: " << insertion_idx << "(<" << upper_idx << " - " << m_final_rank.size() - 1 << ")\n";
 			place_in_final_rank(to_insert, insertion_idx);
@@ -176,8 +176,6 @@ int PmergeMeVector::final_rank_binary_insertion(const Value& to_insert, int low,
 
 	int mid = (low + high) / 2;
 
-	if (to_insert == m_final_rank[mid])
-		return mid + 1;
 	if (to_insert > m_final_rank[mid])
 		return final_rank_binary_insertion(to_insert, mid + 1, high);
 
