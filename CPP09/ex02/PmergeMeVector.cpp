@@ -204,6 +204,39 @@ void PmergeMeVector::place_in_final_rank(const Value& to_insert, size_t index)
 	}
 }
 
+std::vector<size_t> PmergeMeVector::build_jacobsthal_order(size_t n)
+{
+	std::vector<size_t> order;
+	size_t prev = 0;
+	size_t k = 1;
+
+	while (true)
+	{
+		size_t J = jacobsthal(k);
+		if (J > n)
+			J = n;
+
+		for (size_t i = J; i > prev; --i)
+			order.push_back(i - 1);
+
+		if (J == n)
+			break;
+
+		prev = J;
+		++k;
+	}
+	return order;
+}
+
+size_t PmergeMeVector::jacobsthal(size_t n)
+{
+	if (n == 0)
+		return 0;
+	if (n == 1)
+		return 1;
+	return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
+}
+
 void PmergeMeVector::print_final_rank() const
 {
 	std::cout << "Final Rank (" << m_final_rank.size() << "): \n";
