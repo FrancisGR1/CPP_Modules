@@ -3,30 +3,30 @@
 #include <iostream>
 #include <limits>
 #include <cctype>
-#include <vector>
+#include <deque>
 #include <string>
 #include <stdexcept>
 #include <sstream>
 
 #include "Value.hpp"
 #include "Round.hpp"
-#include "PmergeMeVector.hpp"
+#include "PmergeMeDeque.hpp"
 
 //@ASSUMPTION container contains Value struct
-PmergeMeVector::PmergeMeVector()
-	: m_validator("std::vector", m_final_rank)
+PmergeMeDeque::PmergeMeDeque()
+	: m_validator("std::deque", m_final_rank)
 {
 	// initialize first round
-	m_rounds.push_back(Round<std::vector<Value>, std::vector<ValueMetaData> >());
+	m_rounds.push_back(Round<std::deque<Value>, std::deque<ValueMetaData> >());
 }
 
-PmergeMeVector::PmergeMeVector(const PmergeMeVector& other)
+PmergeMeDeque::PmergeMeDeque(const PmergeMeDeque& other)
 	: m_final_rank(other.m_final_rank)
 	, m_rounds(other.m_rounds)
 	, m_values_info(other.m_values_info)
-	, m_validator("std::vector", m_final_rank) {}
+	, m_validator("std::deque", m_final_rank) {}
 
-PmergeMeVector::~PmergeMeVector() {}
+PmergeMeDeque::~PmergeMeDeque() {}
 
 static void expect_unsigned_int(char *number_str)
 {
@@ -54,13 +54,9 @@ static void expect_unsigned_int(char *number_str)
 
 }
 
-void PmergeMeVector::sort(int argc, char **argv)
+void PmergeMeDeque::sort(int argc, char **argv)
 {
 	m_validator.start(argc, argv);
-
-	// alloc space for array of meta data
-	// @ASSUMPTION: meta data size = number of numbers
-	m_values_info.reserve(argc);
 
 	// parse and start matching values
 	for (int i = 0; i + 1 < argc; ++i)
@@ -97,15 +93,15 @@ void PmergeMeVector::sort(int argc, char **argv)
 	while (true)
 	{
 		// is there a final winner?
-		Round<std::vector<Value>, std::vector<ValueMetaData> > last_round = m_rounds.back();
+		Round<std::deque<Value>, std::deque<ValueMetaData> > last_round = m_rounds.back();
 		if (last_round.winners.size() == 1)
 		{
 			break;
 		}
 
 		// initialize new round
-		m_rounds.push_back(Round<std::vector<Value>, std::vector<ValueMetaData>  >());
-		Round<std::vector<Value>, std::vector<ValueMetaData> >& current_round = m_rounds.back();
+		m_rounds.push_back(Round<std::deque<Value>, std::deque<ValueMetaData>  >());
+		Round<std::deque<Value>, std::deque<ValueMetaData> >& current_round = m_rounds.back();
 		for (size_t i = 0; i < last_round.winners.size(); ++i)
 		{
 			// match or push to losers 
@@ -127,14 +123,14 @@ void PmergeMeVector::sort(int argc, char **argv)
 	}
 
 	// initialize the final rank with winner
-	const Round<std::vector<Value>, std::vector<ValueMetaData> >& last_round = m_rounds.back();
+	const Round<std::deque<Value>, std::deque<ValueMetaData> >& last_round = m_rounds.back();
 	place_in_final_rank(last_round.winners[0], 0);
 
 	// fill out the rank recursively until every loser is inserted in final rank
-	for (std::vector<Round<std::vector<Value>, std::vector<ValueMetaData> > >::reverse_iterator rit = m_rounds.rbegin(); rit != m_rounds.rend(); ++rit)
+	for (std::deque<Round<std::deque<Value>, std::deque<ValueMetaData> > >::reverse_iterator rit = m_rounds.rbegin(); rit != m_rounds.rend(); ++rit)
 	{
-		const Round<std::vector<Value>, std::vector<ValueMetaData> >& round = *rit;
-		std::vector<size_t> order_idx = build_jacobsthal_order(round.losers.size());
+		const Round<std::deque<Value>, std::deque<ValueMetaData> >& round = *rit;
+		std::deque<size_t> order_idx = build_jacobsthal_order(round.losers.size());
 		for (size_t i = 0; i < round.losers.size(); ++i)
 		{
 			const Value& to_insert = round.losers[order_idx[i]];
@@ -147,7 +143,7 @@ void PmergeMeVector::sort(int argc, char **argv)
 	m_validator.end();
 }
 
-size_t PmergeMeVector::get_max_bound(size_t index, const Round<std::vector<Value>, std::vector<ValueMetaData> >& current_round)
+size_t PmergeMeDeque::get_max_bound(size_t index, const Round<std::deque<Value>, std::deque<ValueMetaData> >& current_round)
 {
 	if (m_final_rank.size() == 0)
 		return 0;
@@ -166,7 +162,7 @@ size_t PmergeMeVector::get_max_bound(size_t index, const Round<std::vector<Value
 	return m_final_rank.size() - 1;
 }
 
-int PmergeMeVector::final_rank_binary_insertion(const Value& to_insert, int low, int high)
+int PmergeMeDeque::final_rank_binary_insertion(const Value& to_insert, int low, int high)
 {
 	if (high <= low)
 		return (to_insert > m_final_rank[low]) ? (low + 1) : low;
@@ -179,7 +175,7 @@ int PmergeMeVector::final_rank_binary_insertion(const Value& to_insert, int low,
 	return final_rank_binary_insertion(to_insert, low, mid - 1);
 }
 
-void PmergeMeVector::place_in_final_rank(const Value& to_insert, size_t index)
+void PmergeMeDeque::place_in_final_rank(const Value& to_insert, size_t index)
 {
 	if (index == m_final_rank.size()) 
 	{
@@ -199,9 +195,9 @@ void PmergeMeVector::place_in_final_rank(const Value& to_insert, size_t index)
 	}
 }
 
-std::vector<size_t> PmergeMeVector::build_jacobsthal_order(size_t n)
+std::deque<size_t> PmergeMeDeque::build_jacobsthal_order(size_t n)
 {
-	std::vector<size_t> order;
+	std::deque<size_t> order;
 	size_t prev = 0;
 	size_t k = 1;
 
@@ -223,7 +219,7 @@ std::vector<size_t> PmergeMeVector::build_jacobsthal_order(size_t n)
 	return order;
 }
 
-size_t PmergeMeVector::jacobsthal(size_t n)
+size_t PmergeMeDeque::jacobsthal(size_t n)
 {
 	if (n == 0)
 		return 0;
@@ -232,7 +228,7 @@ size_t PmergeMeVector::jacobsthal(size_t n)
 	return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
 }
 
-void PmergeMeVector::print_final_rank() const
+void PmergeMeDeque::print_final_rank() const
 {
 	std::cout << "Final Rank (" << m_final_rank.size() << "): \n";
 	for (size_t i = 0; i < m_final_rank.size(); ++i)
@@ -242,7 +238,7 @@ void PmergeMeVector::print_final_rank() const
 	std::cout << "\n";
 }
 
-void PmergeMeVector::print_meta_data() const
+void PmergeMeDeque::print_meta_data() const
 {
 	std::cout << "Meta data:\n";
 	for (size_t i = 0; i < m_values_info.size(); ++i)
@@ -252,7 +248,7 @@ void PmergeMeVector::print_meta_data() const
 	std::cout << "\n";
 }
 
-void PmergeMeVector::print_rounds() const
+void PmergeMeDeque::print_rounds() const
 {
 	std::cout << "\n=====\n";
 	for (size_t i = 0; i < m_rounds.size(); ++i)

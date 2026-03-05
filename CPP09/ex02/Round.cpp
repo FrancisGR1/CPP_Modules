@@ -1,8 +1,3 @@
-#ifndef ROUND_HPP
-#define ROUND_HPP
-
-#include <utility>
-
 #include "ValueMetaData.hpp"
 #include "Value.hpp"
 
@@ -50,6 +45,3 @@ void Round<Container>::add_and_save(const Value& loser, size_t index, std::vecto
 	losers.push_back(loser);
 	values_info[loser.unique_id].set(index, LOSER);
 }
-
-
-#endif // ROUND_HPP

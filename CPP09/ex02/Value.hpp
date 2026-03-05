@@ -11,9 +11,11 @@ class Value
 		Value(char* str_number, unsigned int id);
 		Value(unsigned int number, unsigned int id);
 		Value(const Value& value);
+		Value& operator=(const Value& value);
+		~Value();
 
 		bool operator>(const Value& other) const;
-		bool operator==(const Value& other) const;
+		bool operator<(const Value& other) const;
 
 		long unsigned int number;
 		long unsigned int unique_id;

@@ -22,7 +22,6 @@ struct Position
 	Status status;
 };
 
-//@TODO  classe
 struct ValueMetaData
 {
 	ValueMetaData(const Value& value);

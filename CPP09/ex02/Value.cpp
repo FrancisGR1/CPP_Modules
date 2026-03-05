@@ -22,8 +22,27 @@ Value::Value(const Value& other)
 	: number(other.number)
 	, unique_id(other.unique_id) {}
 
+Value& Value::operator=(const Value& other)
+{
+	if (this != &other)
+	{
+		number = other.number;
+		unique_id = other.unique_id;
+	}
+
+	return *this;
+}
+
+Value::~Value(){}
+
 bool Value::operator>(const Value& other) const
 { 
 	total_comparisons++;
 	return number > other.number;
+}
+
+bool Value::operator<(const Value& other) const
+{ 
+	total_comparisons++;
+	return number < other.number;
 }

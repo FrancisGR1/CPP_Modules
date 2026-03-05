@@ -2,9 +2,9 @@ NAME  = PmergeMe
 
 CXX   = c++ -std=c++98
 FLAGS = -g -Werror -Wextra -Wall
-SRCS  = main.cpp PmergeMeVector.cpp Value.cpp ValueMetaData.cpp Round.cpp
+SRCS  = main.cpp Value.cpp ValueMetaData.cpp Time.cpp PmergeMeVector.cpp PmergeMeDeque.cpp
 OBJS  = $(SRCS:.cpp=.o)
-INC   = PmergeMeVector.hpp Value.hpp ValueMetaData.hpp Round.hpp
+INC   = PmergeMeVector.hpp PmergeMeDeque.hpp PmergeMeValidator.hpp Value.hpp ValueMetaData.hpp Round.hpp Time.hpp
 
 all: $(NAME)
 
