@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <iostream>
+#include <iomanip>
 
 #include "Time.hpp"
 #include "Value.hpp"
@@ -57,13 +58,14 @@ void PmergeMeValidator<Container>::end() const
 
 	// log final sequence
 	std::cout << "Sorted: ";
-	for (size_t i = 1; i < m_container.size(); ++i)
+	for (size_t i = 0; i < m_container.size(); ++i)
 	{
 		std::cout << m_container[i].number << " ";
 	}
 	std::cout << "\n";
 
 	std::cout << "Elements: " << m_container.size() 
+		<< std::fixed << std::setprecision(6) 
 		<< " | Time Elapsed: " << Time::elapsed() << "us"
 		<< std::boolalpha 
 		<< " | Comparisons: " << Value::total_comparisons 

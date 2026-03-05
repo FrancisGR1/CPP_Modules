@@ -3,8 +3,8 @@
 
 #include "Time.hpp"
 
-double Time::m_start = 0.0;
-double Time::m_end   = 0.0;
+timeval Time::m_start;
+timeval Time::m_end;
 
 void Time::start()
 {
@@ -18,12 +18,13 @@ void Time::stop()
 
 double Time::elapsed()
 {
-	return m_end - m_start;
+    return (m_end.tv_sec - m_start.tv_sec) + 
+           (m_end.tv_usec - m_start.tv_usec) / 1000000.0;
 }
 
-double Time::now()
+timeval Time::now()
 {
 	timeval t;
 	gettimeofday(&t, NULL);
-	return t.tv_sec + t.tv_usec * 1e-6;
+	return t;
 }

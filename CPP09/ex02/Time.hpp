@@ -1,6 +1,7 @@
 #ifndef TIME_HPP
 #define TIME_HPP
 
+#include <sys/time.h>
 
 class Time
 {
@@ -15,10 +16,11 @@ class Time
 		Time& operator=(const Time& other);
 		~Time();
 
-		static double m_start;
-		static double m_end;
+		static timeval m_start;
+		static timeval m_end;
 
-		static double now();
+		// utils
+		static timeval now();
 };
 
 #endif //TIME_HPP
