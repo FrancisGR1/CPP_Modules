@@ -76,12 +76,12 @@ void PmergeMeVector::sort(int argc, char **argv)
 			expect_unsigned_int(argv[av_idx + 1]);
 			Value value2(argv[av_idx + 1], unique_id + 1);
 			m_values_info.push_back(ValueMetaData(value2));
-			m_rounds[0].match_and_save(value1, i, value2, i + 1, m_values_info);
+			m_rounds[0].match_and_save(value1, value2);
 			++i;
 		}
 		else
 		{
-			m_rounds[0].add_and_save(value1, i, m_values_info);
+			m_rounds[0].add_and_save(value1);
 		}
 	}
 
@@ -115,13 +115,13 @@ void PmergeMeVector::sort(int argc, char **argv)
 			{
 				// match and save data
 				Value value2(last_round.winners[i + 1]);
-				current_round.match_and_save(value1, i, value2, i + 1, m_values_info);
+				current_round.match_and_save(value1, value2);
 				++i;
 			}
 			else
 			{
 				// if doesn't have a pair = then it's loser
-				current_round.add_and_save(value1, i, m_values_info);
+				current_round.add_and_save(value1);
 			}
 		}
 	}

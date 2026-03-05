@@ -30,9 +30,7 @@ struct ValueMetaData
 	void set(size_t index, Status status);
 
 	Value value;
-	std::vector<Position> round;
 	long rank_idx;
-
 };
 
 #endif // VALUEMETADATA_HPP
