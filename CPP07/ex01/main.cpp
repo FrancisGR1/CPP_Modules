@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "iter.hpp"
 
 void times_two(int &i)
@@ -11,7 +13,7 @@ void to_upper(std::string &str)
 		str[i] = std::toupper(str[i]);
 }
 
-int main( void )
+int main(void)
 {
 	std::cout << "Test int array:\n";
 	int int_arr[] = {1, 2, 3};

@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "Array.hpp"
 
 int main()
@@ -16,6 +17,17 @@ int main()
 	}
 	std::cout << "\n";
 
+	std::cout << "Copy:\n";
+	Array<int>copy;
+	copy = nums;
+	for (size_t i = 0; i < copy.size(); ++i)
+	{
+		std::cout << i;
+		if (i < copy.size() - 1)
+			std::cout << ", ";
+	}
+
+	std::cout << "\n";
 	std::cout << "Try to access out of bounds element:\n";
 	try
 	{
