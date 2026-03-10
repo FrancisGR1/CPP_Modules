@@ -40,7 +40,7 @@ void ScalarConverter::convert(const std::string& literal)
 	}
 
 
-	std::cout << std::fixed << std::setprecision(0);
+	std::cout << std::fixed << std::setprecision(6);
 
 	// transform to string:
 	std::cout << "char: "   << to_string(static_cast<unsigned char>(value), value) << "\n";
@@ -54,11 +54,32 @@ void ScalarConverter::convert(const std::string& literal)
 
 bool ScalarConverter::is_number(const std::string& literal)
 {
+	bool parsed_dot = false;
+
 	for (size_t i = 0; i < literal.size(); ++i)
 	{
 		if (!std::isdigit(literal[i]))
-			return false;
+		{
+			if (i == 0 && literal[i] == '-')
+			{
+				;
+			}
+			else if (literal[i] == '.' && !parsed_dot && i != 0)
+			{
+				parsed_dot = true;
+			}
+			else if (literal[i] == 'f' && !literal.empty() && i == literal.size() - 1)
+			{
+				if (literal[i - 1] == '.' || literal[i - 1] == '-')
+					return false;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
+
 	return true;
 }
 
@@ -95,7 +116,7 @@ std::string ScalarConverter::to_string(float value, double original_value = 0)
 	else
 	{
 		std::ostringstream oss;
-		oss << std::fixed << std::setprecision(1) << value << "f";
+		oss << std::fixed << std::setprecision(6) << value << "f";
 		std::string result = oss.str();
 		return result;
 	}
@@ -110,7 +131,7 @@ std::string ScalarConverter::to_string(double value)
 	else
 	{
 		std::ostringstream oss;
-		oss << std::fixed << std::setprecision(1) << value;
+		oss << std::fixed << std::setprecision(6) << value;
 		std::string result = oss.str();
 		return result;
 	}
