@@ -45,13 +45,13 @@ void Span::setNumberAt(int num, size_t idx)
 	m_data.at(idx) = num;
 }
 
-void Span::fillRandom()
+void Span::fillRandom(int modulus)
 {
 	srand(time(0));
 
 	for (size_t i = 0; i < m_data.capacity(); ++i)
 	{
-		m_data.push_back(rand() % m_data.capacity());
+		m_data.push_back(rand() % modulus);
 	}
 }
 

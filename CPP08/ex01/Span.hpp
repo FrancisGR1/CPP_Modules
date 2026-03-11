@@ -12,7 +12,7 @@ class Span
 
 		void addNumber(int num);
 		void setNumberAt(int num, size_t idx);
-		void fillRandom();
+		void fillRandom(int modulus);
 		int  shortestSpan() const;
 		int  longestSpan() const;
 		void  print() const;
