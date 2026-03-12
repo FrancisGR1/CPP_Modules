@@ -21,6 +21,7 @@ class Value
 		long unsigned int unique_id;
 
 	private:
+		// illegal
 		Value();
 };
 

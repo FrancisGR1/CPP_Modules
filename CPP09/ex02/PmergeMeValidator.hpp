@@ -14,6 +14,7 @@ class PmergeMeValidator
 {
 	public:
 		PmergeMeValidator(const char* container_type, const Container& container);
+		~PmergeMeValidator();
 		void start(int argc, char** argv) const;
 		void end() const;
 		void info() const;
@@ -24,8 +25,11 @@ class PmergeMeValidator
 
 		// utils
 		bool is_sorted() const;
+
 		// illegal
 		PmergeMeValidator();
+		PmergeMeValidator& operator=(const PmergeMeValidator& other);
+		PmergeMeValidator(const PmergeMeValidator& other);
 };
 
 template <typename Container>
