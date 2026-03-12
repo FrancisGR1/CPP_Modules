@@ -72,6 +72,9 @@ int RPN::compute(const std::string& expr)
 		print_stack();
 	}
 
+	if (m_output.size() != 1)
+		throw std::runtime_error("Invalid expression");
+
 	return m_output.top();
 };
 
