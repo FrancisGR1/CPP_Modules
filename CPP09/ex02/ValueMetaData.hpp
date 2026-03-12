@@ -1,7 +1,6 @@
 #ifndef VALUEMETADATA_HPP
 # define VALUEMETADATA_HPP
 
-#include <vector>
 #include <cstddef>
 
 #include "Value.hpp"

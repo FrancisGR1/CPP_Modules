@@ -3,7 +3,6 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <cctype>
 #include <vector>
 
 #include "Value.hpp"
@@ -20,7 +19,7 @@ class PmergeMeVector
 		~PmergeMeVector();
 
 		void sort(int argc, char **argv);
-		size_t size() const;
+		void info() const;
 
 	private:
 		std::vector<Value> m_final_rank;

@@ -38,7 +38,6 @@ static void expect_unsigned_int(char *number_str)
 	{
 		if (!std::isdigit(number[i]))
 		{
-			// @TODO substituir por exception própria
 			std::string not_a_number_msg  = "Error: " + std::string(number_str) + "is not a valid unsigned integer";
 			throw std::invalid_argument(not_a_number_msg);
 		}
@@ -141,6 +140,11 @@ void PmergeMeDeque::sort(int argc, char **argv)
 	}
 
 	m_validator.end();
+}
+
+void PmergeMeDeque::info() const
+{
+	m_validator.info();
 }
 
 size_t PmergeMeDeque::get_max_bound(size_t index, const Round<std::deque<Value>, std::deque<ValueMetaData> >& current_round)

@@ -147,6 +147,11 @@ void PmergeMeVector::sort(int argc, char **argv)
 	m_validator.end();
 }
 
+void PmergeMeVector::info() const
+{
+	m_validator.info();
+}
+
 size_t PmergeMeVector::get_max_bound(size_t index, const Round<std::vector<Value>, std::vector<ValueMetaData> >& current_round)
 {
 	if (m_final_rank.size() == 0)

@@ -3,7 +3,6 @@
 
 #include <cassert>
 #include <cstdlib>
-#include <cctype>
 #include <deque>
 
 #include "Value.hpp"
@@ -20,7 +19,7 @@ class PmergeMeDeque
 		~PmergeMeDeque();
 
 		void sort(int argc, char **argv);
-		size_t size() const;
+		void info() const;
 
 	private:
 		std::deque<Value> m_final_rank;

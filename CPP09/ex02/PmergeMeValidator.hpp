@@ -16,6 +16,7 @@ class PmergeMeValidator
 		PmergeMeValidator(const char* container_type, const Container& container);
 		void start(int argc, char** argv) const;
 		void end() const;
+		void info() const;
 
 	private:
 		const std::string m_type;
@@ -63,7 +64,11 @@ void PmergeMeValidator<Container>::end() const
 		std::cout << m_container[i].number << " ";
 	}
 	std::cout << "\n";
+}
 
+template <typename Container>
+void PmergeMeValidator<Container>::info() const
+{
 	std::cout << "Elements: " << m_container.size() 
 		<< std::fixed << std::setprecision(6) 
 		<< " | Time Elapsed: " << Time::elapsed() << "us"
@@ -78,7 +83,11 @@ template <typename Container>
 bool PmergeMeValidator<Container>::is_sorted() const
 {
 	Container sorted = m_container;
+	// @NOTE: std::sort needs comparison operator
+	// for Value but its comparisons don't count
+	size_t original = Value::total_comparisons;
 	std::sort(sorted.begin(), sorted.end());
+	Value::total_comparisons = original;
 
 	if (sorted.size() != m_container.size())
 		return false;

@@ -1,4 +1,5 @@
 #include <sstream>
+#include <iostream>
 
 #include "Value.hpp"
 
@@ -32,6 +33,7 @@ Value& Value::operator=(const Value& other)
 
 	return *this;
 }
+
 
 Value::~Value(){}
 
