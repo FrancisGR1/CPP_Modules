@@ -19,14 +19,11 @@ RPN::~RPN(){}
 
 int RPN::compute(const std::string& expr)
 {
-	enum Type {Operation = 0, Digit};
-
 	std::cout << std::left
 		  << std::setw(10) << "Input"
 		  << std::setw(15) << "Operation"
 		  << "Stack After\n";
 
-	Type expect = Digit;
 	for (size_t i = 0; i < expr.size(); ++i)
 	{
 		char c = expr.at(i);
@@ -36,23 +33,15 @@ int RPN::compute(const std::string& expr)
 		}
 		else if (std::isdigit(c))
 		{
-			if (expect != Digit) //@TODO: fazer class de exceção mismatch(expr, expect, i)
-				throw std::runtime_error("Expected operation. Got digit instead");
 			std::cout << std::left
 				  << std::setw(10) << c
 				  << std::setw(15) << "Push";
 			m_output.push(c - '0');
-
-			if (i <= 1)
-				expect = Digit;
-			else
-				expect = Operation;
 		}
 		else if (is_operator(c))
 		{
-			if (expect != Operation)
-				throw std::runtime_error("Expected digit. Got operation instead");
-			
+			if (m_output.size() <= 1)
+				throw std::runtime_error("Need at least 2 numbers in stack for operation\n");
 			int rv = m_output.top();
 			m_output.pop();
 
@@ -74,7 +63,6 @@ int RPN::compute(const std::string& expr)
 			std::cout << std::left
 				<< std::setw(10) << c
 				<< std::setw(15) << c;
-			expect = Digit;
 		}
 		else
 		{
