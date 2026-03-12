@@ -56,16 +56,24 @@ void BitcoinExchange::evaluate(const std::string& evaluation_path)
 			skip_whitespaces(line, idx);
 			expect("|", line, idx);
 			skip_whitespaces(line, idx);
-			ExchangeRate er = to_exchange_rate(line, idx);
-			if (er < 0.0 || er > 1000.0)
-				throw std::runtime_error("Error: value must be between 0 and 1000");
+			Quantity quantity = to_quantity(line, idx);
+			if (quantity < 0.0 || quantity > 1000.0)
+				throw std::runtime_error("Error: quantity must be between 0 and 1000");
 			skip_whitespaces(line, idx);
 			if (idx != line.size())
-				throw std::runtime_error("Error: expected end of line after exchange rate: " + line);
+				throw std::runtime_error("Error: expected end of line after quantity: '" + line + "'");
 
-			std::map<Date, ExchangeRate>::iterator it = m_database.lower_bound(date);
+			std::map<Date, ExchangeRate>::iterator it = m_database.upper_bound(date);
+			// find exchange rate date
+			if (it->first == date) // exists
+				;
+			else if (it->first > date && it != m_database.begin()) // previous
+				--it;
+			else
+				throw std::runtime_error("Error: No earlier date exists");
 			std::string date_str = line.substr(date_str_start, date_str_end - date_str_start);
-			std::cout << date_str << " => " << er << " = " << er * it->second << "\n";
+			std::cout << quantity << " * " << it->second << "\n";
+			std::cout << date_str << " => " << quantity << " = " << quantity * it->second << "\n";
 
 		}
 		catch (const std::exception& e)
@@ -75,6 +83,7 @@ void BitcoinExchange::evaluate(const std::string& evaluation_path)
 	};
 };
 
+// loads a .csv file
 void BitcoinExchange::load_database()
 {
 	std::cout << "Loading database: " << m_exchange_rate_db_path << "\n";
@@ -95,7 +104,7 @@ void BitcoinExchange::load_database()
 		skip_whitespaces(line, idx);
 		expect(",", line, idx);
 		skip_whitespaces(line, idx);
-		ExchangeRate er = to_exchange_rate(line, idx);
+		ExchangeRate er = to_quantity(line, idx);
 		skip_whitespaces(line, idx);
 		if (idx != line.size())
 			throw std::runtime_error("Error: expected end of line after exchange rate: " + line);
@@ -132,10 +141,8 @@ BitcoinExchange::Date BitcoinExchange::to_date(const std::string& line, size_t& 
 		throw std::runtime_error("Error: invalid year format: " + line);
 
 	int year = std::atoi(year_str.c_str());
-	if (year < 2009)
-		throw std::runtime_error("Error: invalid year. Is below first year (2009): " + year_str);
-	if (year > 2025)
-		throw std::runtime_error("Error: invalid year. Is above current year (2025): " + year_str);
+	if (year < 0)
+		throw std::runtime_error("Error: Impossible year: " + year_str);
 	date = year;
 
 	skip_whitespaces(line, idx);
@@ -185,7 +192,7 @@ BitcoinExchange::Date BitcoinExchange::to_date(const std::string& line, size_t& 
 	return date;
 };
 
-BitcoinExchange::ExchangeRate BitcoinExchange::to_exchange_rate(const std::string& line, size_t& idx)
+BitcoinExchange::Quantity BitcoinExchange::to_quantity(const std::string& line, size_t& idx)
 {
 	if (idx >= line.size())
 	{
@@ -196,16 +203,16 @@ BitcoinExchange::ExchangeRate BitcoinExchange::to_exchange_rate(const std::strin
 	char *end = NULL;
 	double er = std::strtod(er_str.c_str(), &end);
 	if (end == er_str.c_str())
-		throw std::runtime_error("Error: couldn't convert exchange rate => " + line);
-	if (er > std::numeric_limits<ExchangeRate>::max())
-		throw std::runtime_error("Error: exchange rate too large => " + er_str);
+		throw std::runtime_error("Error: couldn't convert quantity => " + line);
+	if (er > std::numeric_limits<Quantity>::max())
+		throw std::runtime_error("Error: quantity too large => " + er_str);
 	if (er < 0.0)
-		throw std::runtime_error("Error: negative exchange rate => " + er_str);
+		throw std::runtime_error("Error: negative quantity => " + er_str);
 
 	size_t increment = end - er_str.c_str();
 	idx += increment;
 
-	return static_cast<ExchangeRate>(er);
+	return static_cast<Quantity>(er);
 };
 
 void BitcoinExchange::expect(const std::string& str, const std::string& line, size_t& idx)

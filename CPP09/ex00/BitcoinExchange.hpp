@@ -6,6 +6,7 @@ class BitcoinExchange
 	public:
 		typedef int Date;
 		typedef float ExchangeRate;
+		typedef float Quantity;
 
 		BitcoinExchange();
 		BitcoinExchange(const char *prices_database_path);
@@ -26,6 +27,6 @@ class BitcoinExchange
 		//utils for parsing
 		void skip_whitespaces(const std::string& line, size_t& idx);
 		Date to_date(const std::string& line, size_t& idx);
-		ExchangeRate to_exchange_rate(const std::string& line, size_t& idx);
+		ExchangeRate to_quantity(const std::string& line, size_t& idx);
 		void expect(const std::string& str, const std::string& line, size_t& idx);
 };
