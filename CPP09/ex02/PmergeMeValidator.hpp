@@ -37,6 +37,9 @@ PmergeMeValidator<Container>::PmergeMeValidator(const char* container_type, cons
 	: m_type(container_type)
 	, m_container(container) {}
 
+template <typename Container>
+PmergeMeValidator<Container>::~PmergeMeValidator() {}
+
 //@ASSUMPTION container contains Value struct
 template <typename Container>
 void PmergeMeValidator<Container>::start(int argc, char** argv) const
