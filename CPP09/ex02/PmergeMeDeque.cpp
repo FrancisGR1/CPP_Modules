@@ -38,7 +38,7 @@ static void expect_unsigned_int(char *number_str)
 	{
 		if (!std::isdigit(number[i]))
 		{
-			std::string not_a_number_msg  = "Error: " + std::string(number_str) + "is not a valid unsigned integer";
+			std::string not_a_number_msg  = "Error: " + std::string(number_str) + " is not a valid unsigned integer";
 			throw std::invalid_argument(not_a_number_msg);
 		}
 	}
@@ -47,7 +47,7 @@ static void expect_unsigned_int(char *number_str)
 	ss >> tmp_long;
 	if (tmp_long > std::numeric_limits<int>::max())
 	{
-		std::string not_a_number_msg  = "Error: " + std::string(number_str) + "is not a valid unsigned integer";
+		std::string not_a_number_msg  = "Error: " + std::string(number_str) + " is not a valid unsigned integer";
 		throw std::invalid_argument(not_a_number_msg);
 	}
 

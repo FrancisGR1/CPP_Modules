@@ -92,9 +92,9 @@ bool PmergeMeValidator<Container>::is_sorted() const
 	Container sorted = m_container;
 	// @NOTE: std::sort needs comparison operator
 	// for Value but its comparisons don't count
-	size_t original = Value::total_comparisons;
+	size_t before = Value::total_comparisons;
 	std::sort(sorted.begin(), sorted.end());
-	Value::total_comparisons = original;
+	Value::total_comparisons = before;
 
 	if (sorted.size() != m_container.size())
 		return false;
