@@ -47,7 +47,7 @@ template <typename C1, typename C2>
 void Round<C1, C2>::match_and_save(const Value& v1, const Value& v2)
 {
 
-	if (v1.number > v2.number)
+	if (v1 > v2)
 	{
 		winners.push_back(v1);
 		losers.push_back(v2);
